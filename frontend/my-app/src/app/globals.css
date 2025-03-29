@@ -23,6 +23,7 @@
 }
 
 html {
+  zoom: 100%;
   overflow: auto;
   scrollbar-width: none; /* Firefox */
 }

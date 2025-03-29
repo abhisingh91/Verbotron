@@ -227,7 +227,7 @@ export default function MissingWord({ difficulty }) {
           key={index}
           onClick={() => handleSelect(option)}
           disabled={selected}
-          className={`relative p-4 text-xl border min-w-[160px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] 
+          className={`relative p-2.5 md:p-3.5 lg:p-4 text-[16px] md:text-lg border min-w-[140px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] 
             max-w-[280px] text-gray-200 transition-border-color transition-shadow duration-200 
                       ${selected === option 
                         ? (isCorrect 

@@ -349,7 +349,7 @@ export default function WordVerse({ difficulty, gameType }) {
               key={index}
               onClick={() => handleOptionClick(option)}
               disabled={loading || result}
-              className={`p-3 text-lg border min-w-[160px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] 
+              className={`p-2.5 md:p-3.5 lg:p-4 text-[16px] md:text-lg border min-w-[140px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] 
               max-w-[280px] text-gray-200 ${
                 result && option === input
                   ? result === "correct"
