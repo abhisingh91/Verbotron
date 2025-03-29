@@ -1,0 +1,1696 @@
+[
+    {
+        "sentence": "She ___ her teeth every morning and night.",
+        "correctAnswer": "brushes",
+        "options": [
+            "brushes",
+            "throws",
+            "eats",
+            "draws"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The sun ___ in the east every morning.",
+        "correctAnswer": "rises",
+        "options": [
+            "falls",
+            "rises",
+            "sleeps",
+            "dances"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ his hands before eating dinner.",
+        "correctAnswer": "washes",
+        "options": [
+            "dries",
+            "hides",
+            "closes",
+            "washes"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "Birds ___ south for the winter.",
+        "correctAnswer": "fly",
+        "options": [
+            "crawl",
+            "swim",
+            "run",
+            "fly"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "Please ___ the door when you leave.",
+        "correctAnswer": "close",
+        "options": [
+            "open",
+            "close",
+            "paint",
+            "break"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The baby ___ when she is hungry.",
+        "correctAnswer": "cries",
+        "options": [
+            "sings",
+            "cries",
+            "laughs",
+            "jumps"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "We ___ to school every weekday.",
+        "correctAnswer": "go",
+        "options": [
+            "sleep",
+            "drive",
+            "go",
+            "eat"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ a picture of her family.",
+        "correctAnswer": "drew",
+        "options": [
+            "drew",
+            "ran",
+            "slept",
+            "ate"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The dog ___ its tail when happy.",
+        "correctAnswer": "wags",
+        "options": [
+            "hides",
+            "washes",
+            "loses",
+            "wags"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "I ___ my bed after waking up.",
+        "correctAnswer": "make",
+        "options": [
+            "make",
+            "find",
+            "lose",
+            "break"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ the ball to his friend.",
+        "correctAnswer": "throws",
+        "options": [
+            "sleeps",
+            "draws",
+            "throws",
+            "eats"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The teacher ___ a story to the class.",
+        "correctAnswer": "reads",
+        "options": [
+            "reads",
+            "writes",
+            "draws",
+            "sings"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ the flowers in the garden.",
+        "correctAnswer": "waters",
+        "options": [
+            "picks",
+            "waters",
+            "cuts",
+            "hides"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "They ___ TV after dinner.",
+        "correctAnswer": "watch",
+        "options": [
+            "run",
+            "watch",
+            "sleep",
+            "eat"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The cat ___ on the sofa all day.",
+        "correctAnswer": "sleeps",
+        "options": [
+            "barks",
+            "sleeps",
+            "swims",
+            "runs"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "I ___ my homework before playing.",
+        "correctAnswer": "finish",
+        "options": [
+            "finish",
+            "lose",
+            "forget",
+            "break"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The phone ___ when someone calls.",
+        "correctAnswer": "rings",
+        "options": [
+            "rings",
+            "falls",
+            "sleeps",
+            "jumps"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ a letter to her friend.",
+        "correctAnswer": "writes",
+        "options": [
+            "sings",
+            "draws",
+            "writes",
+            "reads"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "We ___ lunch at noon every day.",
+        "correctAnswer": "eat",
+        "options": [
+            "sleep",
+            "eat",
+            "run",
+            "study"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The car ___ down the street.",
+        "correctAnswer": "drives",
+        "options": [
+            "swims",
+            "drives",
+            "flies",
+            "jumps"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ his shoes before going out.",
+        "correctAnswer": "ties",
+        "options": [
+            "cuts",
+            "washes",
+            "ties",
+            "loses"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The baby ___ when she sees her mother.",
+        "correctAnswer": "smiles",
+        "options": [
+            "sleeps",
+            "runs",
+            "cries",
+            "smiles"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "They ___ soccer in the park.",
+        "correctAnswer": "play",
+        "options": [
+            "sleep",
+            "play",
+            "read",
+            "eat"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ the window to get fresh air.",
+        "correctAnswer": "opens",
+        "options": [
+            "breaks",
+            "cleans",
+            "closes",
+            "opens"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The clock ___ every hour.",
+        "correctAnswer": "chimes",
+        "options": [
+            "falls",
+            "chimes",
+            "runs",
+            "sleeps"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "I ___ my hair after showering.",
+        "correctAnswer": "dry",
+        "options": [
+            "color",
+            "wash",
+            "dry",
+            "cut"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The train ___ at the station at 5 PM.",
+        "correctAnswer": "arrives",
+        "options": [
+            "sleeps",
+            "flies",
+            "arrives",
+            "leaves"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ the newspaper every morning.",
+        "correctAnswer": "reads",
+        "options": [
+            "draws",
+            "writes",
+            "sings",
+            "reads"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ her room on weekends.",
+        "correctAnswer": "cleans",
+        "options": [
+            "builds",
+            "paints",
+            "cleans",
+            "dirties"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The children ___ to music in class.",
+        "correctAnswer": "listen",
+        "options": [
+            "sleep",
+            "listen",
+            "run",
+            "speak"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "I ___ my grandmother every Sunday.",
+        "correctAnswer": "visit",
+        "options": [
+            "ignore",
+            "leave",
+            "visit",
+            "forget"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The baker ___ fresh bread daily.",
+        "correctAnswer": "makes",
+        "options": [
+            "eats",
+            "makes",
+            "buys",
+            "sells"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ her keys and couldn't find them.",
+        "correctAnswer": "lost",
+        "options": [
+            "broke",
+            "lost",
+            "hid",
+            "found"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The students ___ quietly during the test.",
+        "correctAnswer": "work",
+        "options": [
+            "shout",
+            "sleep",
+            "play",
+            "work"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ his bike to school every day.",
+        "correctAnswer": "rides",
+        "options": [
+            "swims",
+            "drives",
+            "flies",
+            "rides"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The leaves ___ from the trees in autumn.",
+        "correctAnswer": "fall",
+        "options": [
+            "fall",
+            "rise",
+            "fly",
+            "grow"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ a song at the school concert.",
+        "correctAnswer": "sang",
+        "options": [
+            "ran",
+            "sang",
+            "danced",
+            "painted"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "We ___ our grandparents every summer.",
+        "correctAnswer": "visit",
+        "options": [
+            "visit",
+            "forget",
+            "ignore",
+            "leave"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The fish ___ in the pond.",
+        "correctAnswer": "swim",
+        "options": [
+            "swim",
+            "jump",
+            "run",
+            "fly"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ the ball over the fence.",
+        "correctAnswer": "kicked",
+        "options": [
+            "hid",
+            "ate",
+            "kicked",
+            "threw"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The baby ___ his first steps today.",
+        "correctAnswer": "took",
+        "options": [
+            "gave",
+            "took",
+            "lost",
+            "found"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ a beautiful dress to the party.",
+        "correctAnswer": "wore",
+        "options": [
+            "wore",
+            "drew",
+            "ate",
+            "slept"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The fire ___ brightly in the fireplace.",
+        "correctAnswer": "burned",
+        "options": [
+            "burned",
+            "slept",
+            "froze",
+            "ran"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "They ___ a sandcastle at the beach.",
+        "correctAnswer": "built",
+        "options": [
+            "slept",
+            "built",
+            "destroyed",
+            "ate"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The teacher ___ the students a question.",
+        "correctAnswer": "asked",
+        "options": [
+            "told",
+            "showed",
+            "asked",
+            "gave"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ his grandmother a birthday card.",
+        "correctAnswer": "sent",
+        "options": [
+            "lost",
+            "forgot",
+            "sent",
+            "received"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The snow ___ softly on the ground.",
+        "correctAnswer": "fell",
+        "options": [
+            "rose",
+            "melted",
+            "fell",
+            "froze"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "She ___ the answer to the question.",
+        "correctAnswer": "knew",
+        "options": [
+            "doubted",
+            "knew",
+            "forgot",
+            "asked"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The children ___ happily in the playground.",
+        "correctAnswer": "played",
+        "options": [
+            "slept",
+            "studied",
+            "cried",
+            "played"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "He ___ his name at the top of the paper.",
+        "correctAnswer": "wrote",
+        "options": [
+            "wrote",
+            "drew",
+            "erased",
+            "hid"
+        ],
+        "difficulty": "easy"
+    },
+    {
+        "sentence": "The manager ___ the proposal before the meeting.",
+        "correctAnswer": "reviewed",
+        "options": [
+            "forgot",
+            "ignored",
+            "destroyed",
+            "reviewed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ her position at the company after the scandal.",
+        "correctAnswer": "resigned",
+        "options": [
+            "resigned",
+            "improved",
+            "celebrated",
+            "described"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The scientist ___ the results of the experiment carefully.",
+        "correctAnswer": "analyzed",
+        "options": [
+            "copied",
+            "ruined",
+            "simplified",
+            "analyzed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his mistake and apologized sincerely.",
+        "correctAnswer": "acknowledged",
+        "options": [
+            "hid",
+            "repeated",
+            "acknowledged",
+            "denied"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The team ___ their strategy after the first round failed.",
+        "correctAnswer": "adjusted",
+        "options": [
+            "adjusted",
+            "criticized",
+            "abandoned",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The artist ___ her latest painting at the gallery opening.",
+        "correctAnswer": "exhibited",
+        "options": [
+            "stored",
+            "packed",
+            "exhibited",
+            "ruined"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "They ___ the old building to construct a new shopping center.",
+        "correctAnswer": "demolished",
+        "options": [
+            "decorated",
+            "demolished",
+            "visited",
+            "repaired"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The lawyer ___ the contract before signing.",
+        "correctAnswer": "examined",
+        "options": [
+            "lost",
+            "ripped",
+            "examined",
+            "copied"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ her speech to make it more persuasive.",
+        "correctAnswer": "revised",
+        "options": [
+            "ignored",
+            "revised",
+            "shortened",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The committee ___ the new policy unanimously.",
+        "correctAnswer": "approved",
+        "options": [
+            "ignored",
+            "approved",
+            "debated",
+            "rejected"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his grandmother's recipe for the family dinner.",
+        "correctAnswer": "followed",
+        "options": [
+            "forgot",
+            "invented",
+            "followed",
+            "burned"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The city ___ new regulations to reduce pollution.",
+        "correctAnswer": "implemented",
+        "options": [
+            "ignored",
+            "studied",
+            "implemented",
+            "opposed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ her colleague's idea during the brainstorming session.",
+        "correctAnswer": "supported",
+        "options": [
+            "criticized",
+            "forgot",
+            "stole",
+            "supported"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The detective ___ the clues to solve the mystery.",
+        "correctAnswer": "pieced",
+        "options": [
+            "lost",
+            "pieced",
+            "created",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "They ___ their differences and agreed to work together.",
+        "correctAnswer": "resolved",
+        "options": [
+            "ignored",
+            "celebrated",
+            "increased",
+            "resolved"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The student ___ the professor's feedback to improve her paper.",
+        "correctAnswer": "incorporated",
+        "options": [
+            "copied",
+            "incorporated",
+            "rejected",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The company ___ its products to meet new safety standards.",
+        "correctAnswer": "modified",
+        "options": [
+            "hid",
+            "recalled",
+            "modified",
+            "abandoned"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his savings to start a small business.",
+        "correctAnswer": "invested",
+        "options": [
+            "donated",
+            "lost",
+            "hid",
+            "invested"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The journalist ___ the politician about the controversial decision.",
+        "correctAnswer": "questioned",
+        "options": [
+            "praised",
+            "ignored",
+            "insulted",
+            "questioned"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ the difficult situation with great patience.",
+        "correctAnswer": "handled",
+        "options": [
+            "worsened",
+            "created",
+            "avoided",
+            "handled"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The doctor ___ the patient's symptoms before making a diagnosis.",
+        "correctAnswer": "assessed",
+        "options": [
+            "exaggerated",
+            "ignored",
+            "assessed",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "They ___ the ancient manuscript in the university library.",
+        "correctAnswer": "discovered",
+        "options": [
+            "discovered",
+            "burned",
+            "lost",
+            "copied"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The engineer ___ the bridge design to withstand earthquakes.",
+        "correctAnswer": "reinforced",
+        "options": [
+            "weakened",
+            "ignored",
+            "simplified",
+            "reinforced"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ her presentation to the board of directors.",
+        "correctAnswer": "delivered",
+        "options": [
+            "ignored",
+            "canceled",
+            "delivered",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The government ___ new measures to combat inflation.",
+        "correctAnswer": "introduced",
+        "options": [
+            "denied",
+            "removed",
+            "introduced",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his passport before the international trip.",
+        "correctAnswer": "renewed",
+        "options": [
+            "renewed",
+            "destroyed",
+            "lost",
+            "canceled"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The team ___ their opponent's strategy before the championship game.",
+        "correctAnswer": "studied",
+        "options": [
+            "feared",
+            "studied",
+            "ignored",
+            "copied"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ the conference room for the important meeting.",
+        "correctAnswer": "prepared",
+        "options": [
+            "booked",
+            "cleaned",
+            "prepared",
+            "left"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The author ___ the final chapter of his novel.",
+        "correctAnswer": "completed",
+        "options": [
+            "burned",
+            "abandoned",
+            "completed",
+            "lost"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "They ___ the contract after weeks of negotiation.",
+        "correctAnswer": "signed",
+        "options": [
+            "signed",
+            "lost",
+            "ignored",
+            "ripped"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The judge ___ the evidence before making a ruling.",
+        "correctAnswer": "considered",
+        "options": [
+            "ignored",
+            "considered",
+            "misplaced",
+            "destroyed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The chef ___ traditional recipes with modern techniques.",
+        "correctAnswer": "combined",
+        "options": [
+            "replaced",
+            "burned",
+            "forgot",
+            "combined"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his appointment with the dentist.",
+        "correctAnswer": "kept",
+        "options": [
+            "missed",
+            "canceled",
+            "kept",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The organization ___ volunteers for the charity event.",
+        "correctAnswer": "recruited",
+        "options": [
+            "paid",
+            "ignored",
+            "rejected",
+            "recruited"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ her research findings at the international conference.",
+        "correctAnswer": "presented",
+        "options": [
+            "forgot",
+            "hid",
+            "presented",
+            "denied"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The police ___ the area after the robbery.",
+        "correctAnswer": "searched",
+        "options": [
+            "cleaned",
+            "left",
+            "ignored",
+            "searched"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "They ___ the budget carefully to avoid overspending.",
+        "correctAnswer": "planned",
+        "options": [
+            "ignored",
+            "planned",
+            "lost",
+            "wasted"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The teacher ___ the students' progress throughout the semester.",
+        "correctAnswer": "monitored",
+        "options": [
+            "monitored",
+            "praised",
+            "forgot",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his grandmother's advice about saving money.",
+        "correctAnswer": "remembered",
+        "options": [
+            "rejected",
+            "forgot",
+            "ignored",
+            "remembered"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The company ___ its employees about the new policy.",
+        "correctAnswer": "informed",
+        "options": [
+            "questioned",
+            "informed",
+            "fined",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ the difficult math problem after several attempts.",
+        "correctAnswer": "solved",
+        "options": [
+            "ignored",
+            "copied",
+            "forgot",
+            "solved"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The mayor ___ the new community center on Saturday.",
+        "correctAnswer": "opened",
+        "options": [
+            "ignored",
+            "canceled",
+            "opened",
+            "closed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his luggage at the airport check-in counter.",
+        "correctAnswer": "weighed",
+        "options": [
+            "abandoned",
+            "weighed",
+            "lost",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The committee ___ the applications for the scholarship.",
+        "correctAnswer": "evaluated",
+        "options": [
+            "ignored",
+            "lost",
+            "evaluated",
+            "returned"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ her travel plans due to the bad weather.",
+        "correctAnswer": "changed",
+        "options": [
+            "ignored",
+            "enjoyed",
+            "changed",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The technician ___ the computer virus within minutes.",
+        "correctAnswer": "removed",
+        "options": [
+            "spread",
+            "removed",
+            "ignored",
+            "created"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "They ___ their grandparents' 50th wedding anniversary.",
+        "correctAnswer": "celebrated",
+        "options": [
+            "forgot",
+            "ignored",
+            "celebrated",
+            "missed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The athlete ___ his personal best in the competition.",
+        "correctAnswer": "achieved",
+        "options": [
+            "achieved",
+            "forgot",
+            "missed",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "She ___ the museum's collection during her visit.",
+        "correctAnswer": "admired",
+        "options": [
+            "criticized",
+            "admired",
+            "stole",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The gardener ___ the plants regularly during the drought.",
+        "correctAnswer": "watered",
+        "options": [
+            "killed",
+            "ignored",
+            "watered",
+            "forgot"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "He ___ his colleague for help with the project.",
+        "correctAnswer": "asked",
+        "options": [
+            "demanded",
+            "refused",
+            "asked",
+            "ignored"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The students ___ their notes before the final exam.",
+        "correctAnswer": "reviewed",
+        "options": [
+            "ignored",
+            "burned",
+            "lost",
+            "reviewed"
+        ],
+        "difficulty": "medium"
+    },
+    {
+        "sentence": "The diplomat ___ the fragile peace treaty through meticulous negotiation.",
+        "correctAnswer": "brokered",
+        "options": [
+            "brokered",
+            "disregarded",
+            "instigated",
+            "nullified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The scientist ___ a paradigm-shifting theory that challenged established dogma.",
+        "correctAnswer": "postulated",
+        "options": [
+            "plagiarized",
+            "misinterpreted",
+            "postulated",
+            "suppressed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The prosecutor ___ the defendant's alibi with forensic evidence.",
+        "correctAnswer": "discredited",
+        "options": [
+            "fabricated",
+            "circumvented",
+            "discredited",
+            "bolstered"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The architect ___ a revolutionary design that defied conventional aesthetics.",
+        "correctAnswer": "conceived",
+        "options": [
+            "compromised",
+            "conceived",
+            "desecrated",
+            "replicated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The CEO ___ the corporate scandal with remarkable transparency.",
+        "correctAnswer": "rectified",
+        "options": [
+            "instigated",
+            "concealed",
+            "rectified",
+            "exacerbated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The historian ___ the ancient manuscript's authenticity through carbon dating.",
+        "correctAnswer": "substantiated",
+        "options": [
+            "impugned",
+            "fabricated",
+            "obfuscated",
+            "substantiated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The surgeon ___ the experimental procedure with unprecedented precision.",
+        "correctAnswer": "executed",
+        "options": [
+            "abandoned",
+            "botched",
+            "executed",
+            "improvised"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The judge ___ the constitutional implications before issuing her landmark ruling.",
+        "correctAnswer": "deliberated",
+        "options": [
+            "misinterpreted",
+            "dismissed",
+            "deliberated",
+            "circumvented"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The economist ___ the market trends to predict the impending recession.",
+        "correctAnswer": "extrapolated",
+        "options": [
+            "instigated",
+            "misrepresented",
+            "extrapolated",
+            "ignored"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The linguist ___ the obscure dialect's grammatical structures.",
+        "correctAnswer": "deciphered",
+        "options": [
+            "fabricated",
+            "deciphered",
+            "oversimplified",
+            "corrupted"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The engineer ___ the structural flaw that could have caused catastrophic failure.",
+        "correctAnswer": "diagnosed",
+        "options": [
+            "exacerbated",
+            "overlooked",
+            "diagnosed",
+            "concealed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The philosopher ___ conventional morality in his controversial treatise.",
+        "correctAnswer": "deconstructed",
+        "options": [
+            "misinterpreted",
+            "endorsed",
+            "oversimplified",
+            "deconstructed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The journalist ___ the corruption scandal despite political pressure.",
+        "correctAnswer": "uncovered",
+        "options": [
+            "trivialized",
+            "uncovered",
+            "fabricated",
+            "suppressed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The researcher ___ her hypothesis after encountering contradictory evidence.",
+        "correctAnswer": "repudiated",
+        "options": [
+            "dogmatized",
+            "falsified",
+            "repudiated",
+            "circumvented"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The constitutional scholar ___ the legal precedent's applicability to modern cases.",
+        "correctAnswer": "contested",
+        "options": [
+            "obfuscated",
+            "contested",
+            "misrepresented",
+            "blindly accepted"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The cybersecurity expert ___ the sophisticated hacking attempt in real-time.",
+        "correctAnswer": "thwarted",
+        "options": [
+            "thwarted",
+            "exacerbated",
+            "instigated",
+            "overlooked"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The anthropologist ___ the indigenous tribe's cultural practices without bias.",
+        "correctAnswer": "documented",
+        "options": [
+            "documented",
+            "romanticized",
+            "exploited",
+            "misrepresented"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The appellate court ___ the lower court's decision based on procedural errors.",
+        "correctAnswer": "overturned",
+        "options": [
+            "misinterpreted",
+            "rubber-stamped",
+            "circumvented",
+            "overturned"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The molecular biologist ___ the protein's three-dimensional structure.",
+        "correctAnswer": "elucidated",
+        "options": [
+            "elucidated",
+            "misrepresented",
+            "fabricated",
+            "oversimplified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The art historian ___ the Renaissance painting's provenance through archival research.",
+        "correctAnswer": "authenticated",
+        "options": [
+            "authenticated",
+            "impugned",
+            "fabricated",
+            "obfuscated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The negotiator ___ the hostage crisis without bloodshed.",
+        "correctAnswer": "resolved",
+        "options": [
+            "exacerbated",
+            "instigated",
+            "resolved",
+            "prolonged"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The astrophysicist ___ the celestial phenomenon using advanced spectroscopy.",
+        "correctAnswer": "analyzed",
+        "options": [
+            "dismissed",
+            "analyzed",
+            "misinterpreted",
+            "fabricated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The constitutional lawyer ___ the legislation's potential civil rights violations.",
+        "correctAnswer": "identified",
+        "options": [
+            "overlooked",
+            "instigated",
+            "identified",
+            "exaggerated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The paleontologist ___ the fossil's significance in evolutionary biology.",
+        "correctAnswer": "articulated",
+        "options": [
+            "articulated",
+            "fabricated",
+            "dismissed",
+            "misrepresented"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The investigative committee ___ the whistleblower's allegations through sworn testimony.",
+        "correctAnswer": "corroborated",
+        "options": [
+            "suppressed",
+            "trivialized",
+            "fabricated",
+            "corroborated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The virologist ___ the novel pathogen's transmission mechanisms.",
+        "correctAnswer": "characterized",
+        "options": [
+            "exaggerated",
+            "misrepresented",
+            "overlooked",
+            "characterized"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The magistrate ___ the complex legal arguments before delivering judgment.",
+        "correctAnswer": "pondered",
+        "options": [
+            "misunderstood",
+            "rushed",
+            "pondered",
+            "dismissed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The cryptographer ___ the ancient cipher using computational analysis.",
+        "correctAnswer": "decrypted",
+        "options": [
+            "corrupted",
+            "decrypted",
+            "fabricated",
+            "overcomplicated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The epistemologist ___ the foundations of human knowledge in her dissertation.",
+        "correctAnswer": "interrogated",
+        "options": [
+            "dogmatized",
+            "took for granted",
+            "interrogated",
+            "oversimplified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The environmental scientist ___ the ecosystem's collapse to climate change.",
+        "correctAnswer": "attributed",
+        "options": [
+            "dismissed",
+            "exaggerated",
+            "attributed",
+            "oversimplified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The quantum physicist ___ the experimental results that contradicted existing theories.",
+        "correctAnswer": "reconciled",
+        "options": [
+            "dismissed",
+            "misrepresented",
+            "fabricated",
+            "reconciled"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The constitutional assembly ___ the controversial clause after heated debate.",
+        "correctAnswer": "amended",
+        "options": [
+            "rubber-stamped",
+            "amended",
+            "obfuscated",
+            "suppressed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The neuroscientist ___ the neural pathways involved in decision-making.",
+        "correctAnswer": "mapped",
+        "options": [
+            "misrepresented",
+            "oversimplified",
+            "fabricated",
+            "mapped"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The arbitrator ___ the labor dispute to both parties' satisfaction.",
+        "correctAnswer": "mediated",
+        "options": [
+            "mediated",
+            "exacerbated",
+            "prolonged",
+            "ignored"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The epidemiologist ___ the disease outbreak to contaminated water sources.",
+        "correctAnswer": "traced",
+        "options": [
+            "oversimplified",
+            "misattributed",
+            "exaggerated",
+            "traced"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The literary critic ___ the postmodern novel's intertextual references.",
+        "correctAnswer": "deconstructed",
+        "options": [
+            "invented",
+            "overlooked",
+            "misinterpreted",
+            "deconstructed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The geologist ___ the seismic data to predict volcanic activity.",
+        "correctAnswer": "interpreted",
+        "options": [
+            "dismissed",
+            "overcomplicated",
+            "interpreted",
+            "fabricated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The ethicist ___ the medical trial's potential conflicts of interest.",
+        "correctAnswer": "scrutinized",
+        "options": [
+            "concealed",
+            "overlooked",
+            "exaggerated",
+            "scrutinized"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The cryptozoologist ___ the alleged creature sightings with scientific rigor.",
+        "correctAnswer": "investigated",
+        "options": [
+            "investigated",
+            "dismissed",
+            "sensationalized",
+            "fabricated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The sociologist ___ the correlation between education levels and social mobility.",
+        "correctAnswer": "established",
+        "options": [
+            "misrepresented",
+            "dismissed",
+            "established",
+            "oversimplified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The materials scientist ___ a new alloy with remarkable properties.",
+        "correctAnswer": "synthesized",
+        "options": [
+            "misrepresented",
+            "synthesized",
+            "theorized about",
+            "overhyped"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The lexicographer ___ the archaic term's etymology through medieval manuscripts.",
+        "correctAnswer": "traced",
+        "options": [
+            "traced",
+            "fabricated",
+            "misattributed",
+            "oversimplified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The climatologist ___ the historical weather patterns using ice core samples.",
+        "correctAnswer": "reconstructed",
+        "options": [
+            "oversimplified",
+            "misinterpreted",
+            "reconstructed",
+            "fabricated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The philologist ___ the ancient text's meaning through comparative linguistics.",
+        "correctAnswer": "illuminated",
+        "options": [
+            "obscured",
+            "illuminated",
+            "dogmatized",
+            "fabricated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The semiotician ___ the cultural symbols embedded in the political discourse.",
+        "correctAnswer": "decoded",
+        "options": [
+            "invented",
+            "oversimplified",
+            "misinterpreted",
+            "decoded"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The acoustician ___ the concert hall's problematic resonance frequencies.",
+        "correctAnswer": "identified",
+        "options": [
+            "ignored",
+            "exaggerated",
+            "misattributed",
+            "identified"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The cyberneticist ___ the feedback loops in the complex system.",
+        "correctAnswer": "modeled",
+        "options": [
+            "modeled",
+            "misrepresented",
+            "oversimplified",
+            "ignored"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The epistemologist ___ the limits of artificial intelligence's cognitive capacities.",
+        "correctAnswer": "delineated",
+        "options": [
+            "exaggerated",
+            "dismissed",
+            "misunderstood",
+            "delineated"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The ontologist ___ the fundamental nature of digital existence.",
+        "correctAnswer": "examined",
+        "options": [
+            "oversimplified",
+            "dogmatized",
+            "dismissed",
+            "examined"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The logician ___ the argument's hidden premises and potential fallacies.",
+        "correctAnswer": "exposed",
+        "options": [
+            "reinforced",
+            "exposed",
+            "overlooked",
+            "misrepresented"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The deontologist ___ the ethical implications of autonomous weapons systems.",
+        "correctAnswer": "grappled",
+        "options": [
+            "oversimplified",
+            "avoided",
+            "grappled",
+            "dismissed"
+        ],
+        "difficulty": "hard"
+    },
+    {
+        "sentence": "The phenomenologist ___ the structures of conscious experience.",
+        "correctAnswer": "investigated",
+        "options": [
+            "misrepresented",
+            "dismissed",
+            "dogmatized",
+            "investigated"
+        ],
+        "difficulty": "hard"
+    }
+]

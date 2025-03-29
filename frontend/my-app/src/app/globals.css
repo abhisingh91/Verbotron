@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Centauri';
+  src: url('/fonts/Centauri.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  overflow-x: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,8 +22,243 @@
   }
 }
 
+html {
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Loading balls */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes bounce200 {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes bounce400 {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 0.8s infinite;
+}
+
+.animate-bounce200 {
+  animation: bounce200 0.6s infinite 0.2s;
+}
+
+.animate-bounce400 {
+  animation: bounce400 0.6s infinite 0.4s;
+}
+
+
+/* starfield animation */
+.starfield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: -1; /* Keep the stars in the background */
+  pointer-events: none; /* Allow interaction with elements in front */
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Star styles */
+.star {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.7;
+  width: 2px; /* Size of the star */
+  height: 2px;
+  animation: moveStars linear infinite; /* Smooth continuous movement */
+}
+
+/* Keyframe animation for star movement */
+@keyframes moveStars {
+  0% {
+    transform: translate3d(var(--start-x), var(--start-y), 0); /* Start from initial position */
+  }
+  100% {
+    transform: translate3d(var(--end-x), var(--end-y), 0); /* Move to a new random position */
+  }
+}
+
+.inset-panel {
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2), inset 0 0 5px rgba(0, 255, 255, 0.1);
+  transform: perspective(600px) translateZ(-5px);
+}
+
+.typing-word {
+  opacity: 0;
+  animation: fadeIn 0.15s forwards;
+  white-space: nowrap;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.futuristic-bg {
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.534), rgba(26, 1, 31, 0.568));
+  backdrop-filter: blur(4px);
+}
+
+@layer utilities {
+  .bg-wireframe {
+    background: 
+      repeating-linear-gradient(0deg, rgba(0, 255, 255, 0.05) 0px, transparent 8px),
+      repeating-linear-gradient(90deg, rgba(0, 255, 255, 0.05) 0px, transparent 8px),
+      radial-gradient(ellipse, rgba(0, 255, 255, 0) 50%, rgba(0, 255, 255, 0.1) 100%);
+  }
+  .bg-wireframe-verse {
+    background: 
+      repeating-linear-gradient(0deg, rgba(94, 255, 0, 0.05) 0px, transparent 8px),
+      repeating-linear-gradient(90deg, rgba(0, 255, 34, 0.05) 0px, transparent 8px),
+      radial-gradient(ellipse, rgba(0, 255, 136, 0) 50%, rgba(0, 255, 255, 0.1) 100%);
+  }
+  .bg-wireframe-green { background: rgba(34, 197, 94, 0.2); }
+  .bg-wireframe-red { background: rgba(239, 68, 68, 0.2); }
+}
+
+
+/* Custom colors for Approved */
+.approved-bg {
+  background-color: rgba(14, 122, 81, 0.5); /* Slightly tweaked red-900 */
+  border-color: #16a355; /* green-600 */
+  color: #5dffa6; /* Slightly brighter green-400 */
+}
+
+/* Custom colors for Rejected */
+.rejected-bg {
+  background-color: rgba(95, 9, 9, 0.5); /* Slightly tweaked red-900 */
+  border-color: #940039; /* red-600 */
+  color: #ff8383; /* Slightly brighter red-400 */
+}
+
+@keyframes letterFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.letter-fade {
+  display: inline-block;
+  animation: letterFade 0.1s ease-in-out forwards;
+}
+
+@keyframes hammerPulse {
+  0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+}
+
+@keyframes sparkFade {
+  0% { transform: translateX(0) translateY(0); opacity: 1; }
+  100% { transform: translateX(0) translateY(-20px); opacity: 0; }
+}
+
+.hammer-pulse {
+  animation: hammerPulse 0.8s ease-in-out infinite;
+}
+
+.spark-fade {
+  position: absolute;
+  animation: sparkFade 1s ease-out infinite;
+}
+
+.delay-200 { animation-delay: 0.2s; }
+.delay-400 { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes portal {
+  0% { transform: rotate(0deg); opacity: 0.5; }
+  50% { transform: rotate(180deg); opacity: 1; }
+  100% { transform: rotate(360deg); opacity: 0.5; }
+}
+.animate-portal { animation: portal 1.2s infinite; }
+.delay-200 { animation-delay: 0.2s; }
+
+
+.clip-glyph {
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+@keyframes glyph-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 1;
+  }
+}
+.animate-glyph-spin {
+  animation: glyph-spin 1.5s infinite linear;
+}
+.delay-200 {
+  animation-delay: 0.2s;
+}
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 2s infinite;
+}
+
+@keyframes spark {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(20px, -20px); opacity: 0; }
+}
+.animate-spark {
+  animation: spark 1s infinite;
+}
+

@@ -29,7 +29,7 @@ async function uploadData() {
   const collection = db.collection('sentences');
 
   // Fetching the JSON file (adjust the path as needed)
-  const filePath = path.join(__dirname, 'data', 'sentences.json'); // Change this if you place the file somewhere else
+  const filePath = path.join(__dirname, 'frontend/my-app/public/data', 'sentences.json'); // Change this if you place the file somewhere else
   const rawData = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(rawData);
 

@@ -1,12 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        centauri: ['Centauri', 'sans-serif'],
+        orbitron: ['Orbitron', 'sans-serif'],
+        'roboto-mono': ['Roboto Mono', 'monospace'],
+      },
+      colors: {
+        silver: {
+          300: '#CFD8DC',
+        },
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };
