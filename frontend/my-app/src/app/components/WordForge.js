@@ -200,7 +200,8 @@ export default function WordForge({ difficulty }) {
     const accuracy = roundsCompleted > 0 ? ((score / roundsCompleted) * 100).toFixed(1) : "0.0";
   
     return (
-      <div className="flex flex-col h-[50vh] justify-center items-center w-[80%] md:w-2/5 text-white">
+      <div className="flex flex-col h-[50vh] justify-center items-center w-[80%] md:w-2/5 text-white
+      opacity-0 scale-90 animate-[fadeZoom_0.5s_ease-out_forwards]">
         <div className="relative flex flex-col items-center justify-center space-y-6 bg-opacity-10">
           {/* Title */}
           <h1
@@ -289,7 +290,7 @@ export default function WordForge({ difficulty }) {
         <button
           onClick={handleSubmit}
           disabled={buttonDisabled}
-          className={`w-2/5 p-4 text-xl border rounded-lg flex items-center justify-center ${
+          className={`w-2/5 p-2.5 md:p-3.5 text-xl border rounded-lg flex items-center justify-center ${
             loading
               ? "bg-gray-700 bg-opacity-50 border-purple-900"
               : result === "correct"

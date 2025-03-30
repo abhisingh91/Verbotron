@@ -77,12 +77,12 @@ const MainMenu = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center py-6 min-h-[450px] text-white overflow-hidden bg-gradient-to-b from-gray-950/20 via-violet-950/20 to-gray-950/20">
+    <div className="flex flex-col justify-center items-center py-6 min-h-[450px] text-white overflow-hidden bg-gradient-to-b from-gray-950/10 via-violet-950/20 to-gray-950/10">
       <Starfield3D />
       {(selectedMode || difficulty) && (
         <button
           onClick={handleGoBack}
-          className={`fixed left-3 md:left-5 top-6 sm:top-6 md:top-5 z-20 w-8 h-8 justify-center md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full border border-gray-600 flex items-center bg-gray-800/60 hover:scale-105 transition-all ${
+          className={`fixed left-3 md:left-5 top-5 md:top-5 lg:top-6 z-20 w-8 h-8 justify-center md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full border border-gray-600 flex items-center bg-gray-800/60 hover:scale-105 transition-all ${
             selectedMode === "missingWord"
               ? "text-cyan-400 hover:bg-cyan-500/30 hover:text-gray-200"
               : selectedMode === "wordForge"
@@ -90,7 +90,7 @@ const MainMenu = () => {
               : "text-green-400 hover:bg-green-500/30 hover:text-gray-200"
           }`}
         >
-          ←
+          <span>←</span>
         </button>
       )}
       <motion.div

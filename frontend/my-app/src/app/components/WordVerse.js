@@ -212,7 +212,8 @@ export default function WordVerse({ difficulty, gameType }) {
     const accuracy = sentencesCompleted > 0 ? ((score / sentencesCompleted) * 100).toFixed(1) : "0.0";
 
     return (
-      <div className="flex flex-col h-[50vh] justify-center items-center w-[80%] md:w-2/5 text-white">
+      <div className="flex flex-col h-[50vh] justify-center items-center w-[80%] md:w-2/5 text-white
+      opacity-0 scale-90 animate-[fadeZoom_0.5s_ease-out_forwards]">
         <div className="relative flex flex-col items-center justify-center space-y-4 bg-opacity-10">
           {/* Title */}
           <h1
@@ -259,110 +260,135 @@ export default function WordVerse({ difficulty, gameType }) {
   }
 
   return (
-    <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-green-800 rounded-md w-[90%] md:w-3/4 lg:w-2/3 sm:max-w-[600px] md:max-w-[700px] items-center h-[425px] text-white">
-      <div className="relative w-full bg-gray-800 h-1 mb-4">
-        <div
-          className="absolute top-0 left-0 h-1 bg-green-500 rounded"
-          style={{ width: `${(timer / 60) * 100}%` }}
-        ></div>
-      </div>
-      <div className="flex justify-between items-center w-full mb-4 px-2">
-        <div className="px-4 py-1 bg-gray-800 bg-opacity-50 rounded-md border mr-10 border-gray-700 text-gray-300 text-lg">
-          {serial}
+    <>
+      <style jsx>{`
+        /* Touch devices: Disable hover, apply active */
+        @media (hover: none) {
+          .option-btn:hover {
+            border-color: #4b5563; /* border-gray-600 */
+            box-shadow: none;
+            background: none;
+          }
+          .option-btn:active {
+            border-color: #0891b2; /* active:border-cyan-600 */
+            box-shadow: 0 0 6px 2px rgba(59, 130, 246, 0.3); /* active:shadow */
+          }
+          .option-btn:focus {
+            outline: none;
+            border-color: #4b5563; /* border-gray-600 */
+            box-shadow: none;
+          }
+        }
+      `}</style>
+      <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-green-800 rounded-md w-[90%] md:w-3/4 lg:w-2/3 sm:max-w-[600px] md:max-w-[700px] items-center h-[425px] text-white">
+        <div className="relative w-full bg-gray-800 h-1 mb-4">
+          <div
+            className="absolute top-0 left-0 h-1 bg-green-500 rounded"
+            style={{ width: `${(timer / 60) * 100}%` }}
+          ></div>
         </div>
-        <div
-          className={`px-4 py-1 rounded-md border text-lg ${
-            difficulty === "easy"
-              ? "border-green-600 text-green-400 bg-green-900 bg-opacity-20"
-              : difficulty === "medium"
-              ? "border-yellow-600 text-yellow-400 bg-yellow-900 bg-opacity-20"
-              : "border-red-600 text-red-400 bg-red-900 bg-opacity-20"
-          }`}
-        >
-          {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+        <div className="flex justify-between items-center w-full mb-4 px-2">
+          <div className="px-4 py-1 bg-gray-800 bg-opacity-50 rounded-md border mr-10 border-gray-700 text-gray-300 text-lg">
+            {serial}
+          </div>
+          <div
+            className={`px-4 py-1 rounded-md border text-lg ${
+              difficulty === "easy"
+                ? "border-green-600 text-green-400 bg-green-900 bg-opacity-20"
+                : difficulty === "medium"
+                ? "border-yellow-600 text-yellow-400 bg-yellow-900 bg-opacity-20"
+                : "border-red-600 text-red-400 bg-red-900 bg-opacity-20"
+            }`}
+          >
+            {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+          </div>
+          <div className="px-4 py-1 bg-gray-800 bg-opacity-50 rounded-md border border-gray-700 text-gray-300 text-lg">
+            ⏳ {timer}s
+          </div>
         </div>
-        <div className="px-4 py-1 bg-gray-800 bg-opacity-50 rounded-md border border-gray-700 text-gray-300 text-lg">
-          ⏳ {timer}s
+        <div className="relative w-full min-h-[150px] bg-green-900 bg-opacity-30 border border-green-800 rounded-md flex items-center justify-center px-6 mb-6 text-center shadow-inner">
+          <h1 className="text-[20px] md:text-[26px] font-mono font-medium text-green-300 tracking-wide">
+            {displayedWord.split("").map((char, index) => (
+              <span
+                key={`${currentWord}-${char}-${index}`}
+                className="inline-block typing-word"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {char}
+              </span>
+            ))}
+          </h1>
+          <div className="absolute top-2 text-green-200 text-sm md:text-lg font-mono">
+            [{type}]
+          </div>
         </div>
-      </div>
-      <div className="relative w-full min-h-[150px] bg-green-900 bg-opacity-30 border border-green-800 rounded-md flex items-center justify-center px-6 mb-6 text-center shadow-inner">
-        <h1 className="text-[20px] md:text-[26px] font-mono font-medium text-green-300 tracking-wide">
-          {displayedWord.split("").map((char, index) => (
-            <span
-              key={`${currentWord}-${char}-${index}`}
-              className="inline-block typing-word"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {char}
-            </span>
-          ))}
-        </h1>
-        <div className="absolute top-2 text-green-200 text-sm md:text-lg font-mono">
-          [{type}]
-        </div>
-      </div>
-      {gameType === "input" ? (
-        <>
-          <input
-            type="text"
-            placeholder={`Enter a ${type.toLowerCase()}`}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="w-full p-3.5 md:p-4 text-[16px] md:text-xl border border-gray-600 bg-gray-800 text-gray-200 rounded-sm md:rounded-md mb-6 focus:outline-none focus:border-green-600 focus:shadow-[0_0_6px_1px_rgba(72,187,120,0.3)]"
-          />
-          {result || loading ? (
-            <button
-              onClick={handleSubmit}
-              disabled={buttonDisabled}
-              className={`w-2/5 p-4 text-xl border rounded-lg flex items-center justify-center ${
-                loading
-                  ? "bg-gray-700 bg-opacity-50 border-green-900"
+        {gameType === "input" ? (
+          <>
+            <input
+              type="text"
+              placeholder={`Enter a ${type.toLowerCase()}`}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="w-full p-3.5 md:p-4 text-[16px] md:text-xl border border-gray-600 bg-gray-800 text-gray-200 rounded-sm md:rounded-md mb-6 focus:outline-none focus:border-green-600 focus:shadow-[0_0_6px_1px_rgba(72,187,120,0.3)]"
+            />
+            {result || loading ? (
+              <button
+                onClick={handleSubmit}
+                disabled={buttonDisabled}
+                className={`w-2/5 p-2.5 md:p-3.5 text-xl border rounded-lg flex items-center justify-center ${
+                  loading
+                    ? "bg-gray-700 bg-opacity-50 border-green-900"
+                    : result === "correct"
+                    ? "approved-bg"
+                    : result === "incorrect"
+                    ? "rejected-bg"
+                    : "bg-green-800 border-yellow-900 text-white hover:border-green-500 hover:shadow-[0_0_6px_1px_rgba(236,72,153,0.3)]"
+                }`}
+              >
+                {loading
+                  ? "Checking..."
                   : result === "correct"
-                  ? "approved-bg"
+                  ? "Correct"
                   : result === "incorrect"
-                  ? "rejected-bg"
-                  : "bg-green-800 border-yellow-900 text-white hover:border-green-500 hover:shadow-[0_0_6px_1px_rgba(236,72,153,0.3)]"
-              }`}
-            >
-              {loading
-                ? "Checking..."
-                : result === "correct"
-                ? "Correct"
-                : result === "incorrect"
-                ? "Incorrect"
-                : "Submit"}
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={buttonDisabled}
-              className="w-2/5 p-2.5 md:p-3.5 text-xl border border-yellow-900 bg-green-800 text-white rounded-lg hover:border-green-500 hover:shadow-[0_0_6px_1px_rgba(236,72,153,0.3)] transition-border-color transition-shadow duration-250"
-            >
-              Submit
-            </button>
-          )}
-        </>
-      ) : (
-        <div className="grid grid-cols-2 gap-4 h-[150px]">
-          {options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleOptionClick(option)}
-              disabled={loading || result}
-              className={`p-2.5 md:p-3.5 lg:p-4 text-[16px] md:text-lg border min-w-[140px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] 
-              max-w-[280px] text-gray-200 ${
-                result && option === input
-                  ? result === "correct"
-                    ? "border-green-500 shadow-[0_0_6px_1px_rgba(34,197,94,0.4)] bg-wireframe-green"
-                    : "border-red-600 shadow-[0_0_6px_1px_rgba(239,68,68,0.4)] bg-wireframe-red"
-                  : "border-gray-600"
-              } ${!result && "hover:border-green-600 hover:shadow-[0_0_6px_1px_rgba(72,187,120,0.3)] hover:bg-wireframe-verse"}`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+                  ? "Incorrect"
+                  : "Submit"}
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={buttonDisabled}
+                className="w-2/5 p-2.5 md:p-3.5 text-xl border border-yellow-900 bg-green-800 text-white rounded-lg hover:border-green-500 hover:shadow-[0_0_6px_1px_rgba(236,72,153,0.3)] transition-border-color transition-shadow duration-250"
+              >
+                Submit
+              </button>
+            )}
+          </>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 h-[150px]">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleOptionClick(option)}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  handleOptionClick(option);
+                }}
+                disabled={loading || result}
+                className={`option-btn p-2.5 md:p-3.5 lg:p-4 text-[16px] md:text-lg border min-w-[140px] sm:min-w-[200px] md:min-w-[240px] lg:min-w-[280px] 
+                max-w-[280px] text-gray-200 ${
+                  result && option === input
+                    ? result === "correct"
+                      ? "border-green-500 shadow-[0_0_6px_1px_rgba(34,197,94,0.4)] bg-wireframe-green"
+                      : "border-red-600 shadow-[0_0_6px_1px_rgba(239,68,68,0.4)] bg-wireframe-red"
+                    : "border-gray-600"
+                } ${!result && "hover:border-green-600 hover:shadow-[0_0_6px_1px_rgba(72,187,120,0.3)] hover:bg-wireframe-verse"}`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
