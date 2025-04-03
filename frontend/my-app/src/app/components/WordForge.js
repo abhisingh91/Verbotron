@@ -245,7 +245,7 @@ export default function WordForge({ difficulty }) {
   }
 
   return (
-    <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-purple-900 rounded-md w-[90%] md:w-3/4 lg:w-2/3 sm:max-w-[600px] md:max-w-[700px] items-center h-[425px] text-white">
+    <div className="relative flex flex-col p-5 pt-0 bg-gray-950 bg-opacity-50 border-[2px] border-purple-900 rounded-md w-[90%] md:w-3/4 lg:w-2/3 sm:max-w-[600px] md:max-w-[700px] items-center h-[410px] text-white">
       <div className="relative w-full bg-gray-800 h-1 mb-4">
         <div
           className="absolute top-0 left-0 h-1 bg-pink-700 rounded"
@@ -312,7 +312,7 @@ export default function WordForge({ difficulty }) {
         <button
           onClick={handleSubmit}
           disabled={buttonDisabled}
-          className="w-2/5 p-2.5 md:p-3.5 text-xl border border-purple-900 bg-pink-800 text-white rounded-lg hover:border-pink-500 hover:shadow-[0_0_6px_1px_rgba(236,72,153,0.3)] transition-border-color transition-shadow duration-250"
+          className="w-1/3 p-2.5 md:p-3.5 text-xl border border-purple-900 bg-pink-800 text-white rounded-lg hover:border-pink-500 hover:shadow-[0_0_6px_1px_rgba(236,72,153,0.3)] transition-border-color transition-shadow duration-250"
         >
           Submit
         </button>
