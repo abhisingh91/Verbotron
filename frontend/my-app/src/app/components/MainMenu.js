@@ -10,8 +10,8 @@ import WordVerse from "./WordVerse";
 
 const MainMenu = () => {
   const [selectedMode, setSelectedMode] = useState(null);
-  const [difficulty, setDifficulty] = useState(null); // Kept for other modes
-  const [category, setCategory] = useState(null); // Added for VocabHit
+  const [difficulty, setDifficulty] = useState(null);
+  const [category, setCategory] = useState(null);
   const [wordVerseGameType, setWordVerseGameType] = useState(null);
   const [direction, setDirection] = useState(1);
 
@@ -20,12 +20,12 @@ const MainMenu = () => {
     setSelectedMode(mode);
   };
 
-  const handleDifficultyChange = (level) => { // Kept for other modes
+  const handleDifficultyChange = (level) => {
     setDirection(1);
     setDifficulty(level);
   };
 
-  const handleCategoryChange = (cat) => { // Added for VocabHit
+  const handleCategoryChange = (cat) => {
     setDirection(1);
     setCategory(cat);
   };
@@ -38,8 +38,8 @@ const MainMenu = () => {
   const handleGoBack = () => {
     setDirection(-1);
     if (wordVerseGameType && selectedMode === "wordVerse") setWordVerseGameType(null);
-    else if (category && selectedMode === "vocabHit") setCategory(null); // For VocabHit
-    else if (difficulty) setDifficulty(null); // For other modes
+    else if (category && selectedMode === "vocabHit") setCategory(null);
+    else if (difficulty) setDifficulty(null);
     else if (selectedMode) setSelectedMode(null);
   };
 
@@ -53,36 +53,50 @@ const MainMenu = () => {
     vocabHit: {
       header: "Strike the Vocab Hit",
       headerGradient: "bg-amber-300",
-      subtext: "Guess words from rephrased clues",
-      bgClass: "bg-amber-900 bg-opacity-20 border-2 border-amber-600 border-opacity-60",
+      subtext: "Lock in a category to take down",
       instructionBox: "border-2 border-opacity-60 border-amber-600 text-center bg-amber-900 bg-opacity-20 shadow-amber-500/20",
-      instruction: ["Type the word that fits the short, rephrased clue."],
+      instruction: ["Enter the precise word that corresponds to the provided rephrased definition within the selected category."],
     },
     missingWord: {
       header: "Unveil the Missing Word",
       headerGradient: "bg-cyan-300",
       subtext: "Select a challenge level to decode the mystery",
-      bgClass: "bg-cyan-900 bg-opacity-20 border-2 border-cyan-600 border-opacity-60",
       instructionBox: "border-2 border-opacity-60 border-cyan-600 text-center bg-cyan-900 bg-opacity-20 shadow-cyan-500/20",
-      instruction: ["Uncover the missing word and complete the sentence using the context clue"],
+      instruction: ["Uncover the missing word to complete the sentence using the context."],
     },
     wordForge: {
       header: "Forge Your Word Mastery",
       headerGradient: "bg-pink-300",
       subtext: "Pick a difficulty and ignite your wordcraft",
-      bgClass: "bg-purple-900 bg-opacity-20 border-2 border-pink-600 border-opacity-60",
       instructionBox: "border-2 border-opacity-60 border-pink-600 text-center bg-purple-900 bg-opacity-20 shadow-pink-500/20",
-      instruction: ["Craft a sentence using the word to complete the short story. It must fit the context and follow real-world logic."],
+      instruction: ["Craft a sentence with the word that fits the story context."],
     },
     wordVerse: {
       header: "Traverse the WordVerse",
       headerGradient: "bg-green-300",
       subtext: "Choose a level to explore word realms",
-      bgClass: "bg-green-900 bg-opacity-20 border-2 border-green-600 border-opacity-60",
       instructionBox: "border-2 border-opacity-60 border-green-600 text-center bg-green-900 bg-opacity-20 shadow-green-500/20",
-      instruction: ["Master synonyms and antonyms across realms of words."],
-      instructionAfterDifficulty: ["Input: Type a synonym or antonym as prompted.", "Options: Pick the correct synonym or antonym from four choices."],
+      instruction: ["Master synonyms and antonyms across difficulty levels."],
+      instructionAfterDifficulty: ["Type a synonym or antonym as prompted.", "Pick the correct synonym or antonym from options."],
     },
+  };
+
+  const difficultyDescriptions = {
+    missingWord: [
+      { level: "easy", description: "simple words, clear hints" },
+      { level: "medium", description: "tricky words, subtle clues" },
+      { level: "hard", description: "complex terms, vague context" },
+    ],
+    wordForge: [
+      { level: "easy", description: "basic words, short tales" },
+      { level: "medium", description: "varied terms, longer plots" },
+      { level: "hard", description: "rare words, complex stories" },
+    ],
+    wordVerse: [
+      { level: "easy", description: "common words, basic pairs" },
+      { level: "medium", description: "nuanced terms, mixed sets" },
+      { level: "hard", description: "advanced vocab, tough links" },
+    ],
   };
 
   return (
@@ -91,6 +105,10 @@ const MainMenu = () => {
       {(selectedMode || difficulty || category) && (
         <button
           onClick={handleGoBack}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            handleGoBack();
+          }}
           className={`fixed left-3 md:left-5 top-5 md:top-5 lg:top-6 z-20 w-8 h-8 justify-center md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full border border-gray-600 flex items-center bg-gray-800/60 hover:scale-105 transition-all ${
             selectedMode === "vocabHit"
               ? "text-amber-400 hover:bg-amber-500/30 hover:text-gray-200"
@@ -107,7 +125,7 @@ const MainMenu = () => {
       <motion.div
         key={
           selectedMode
-            ? (category && selectedMode === "vocabHit") || (difficulty && selectedMode !== "vocabHit") // Handle both
+            ? (category && selectedMode === "vocabHit") || (difficulty && selectedMode !== "vocabHit")
               ? wordVerseGameType && selectedMode === "wordVerse"
                 ? "game"
                 : "gameType"
@@ -200,40 +218,59 @@ const MainMenu = () => {
             >
               {modeStyles[selectedMode].header}
             </h2>
-            <div className={`w-[90%] md:w-3/4 lg:w-2/3 max-w-[800px] p-4 px-2 md:px-4 rounded-lg border ${modeStyles[selectedMode].bgClass}`}>
-              <p className="text-[16px] md:text-lg text-center mb-6 text-gray-300 font-roboto-mono">
-                {modeStyles[selectedMode].subtext}
-              </p>
-              <div className="flex mb-4 w-full justify-evenly text-[16px] md:text-xl font-semibold font-orbitron">
-                <button
-                  onClick={() => handleDifficultyChange("easy")}
-                  className="w-[25vw] md:w-[220px] p-2 sm:p-3 md:p-4 border-2 bg-gray-800 bg-opacity-60 text-center border-green-500/70 text-green-400 font-medium rounded-md mx-2 shadow-[0_0_4px_rgba(34,197,94,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(34,197,94,0.4)] transition-all duration-200 group"
-                >
-                  Easy
-                  <span className="absolute bottom-0 left-0 right-0 h-1 bg-green-500 rounded-md transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-80"></span>
-                </button>
-                <button
-                  onClick={() => handleDifficultyChange("medium")}
-                  className="w-[25vw] md:w-[220px] p-2 sm:p-3 md:p-4 border-2 bg-gray-800 bg-opacity-60 text-center border-yellow-500/70 text-yellow-400 font-medium rounded-md mx-2 shadow-[0_0_4px_rgba(234,179,8,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(234,179,8,0.4)] transition-all duration-200 group"
-                >
-                  Medium
-                  <span className="absolute bottom-0 left-0 right-0 h-1 bg-yellow-500 rounded-md transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-80"></span>
-                </button>
-                <button
-                  onClick={() => handleDifficultyChange("hard")}
-                  className="w-[25vw] md:w-[220px] p-2 sm:p-3 md:p-4 border-2 bg-gray-800 bg-opacity-60 text-center border-red-500/70 text-red-400 font-medium rounded-md mx-2 shadow-[0_0_4px_rgba(239,68,68,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(239,68,68,0.4)] transition-all duration-200 group"
-                >
-                  Hard
-                  <span className="absolute bottom-0 left-0 right-0 h-1 bg-red-500 rounded-md transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-80"></span>
-                </button>
-              </div>
+            <p className="text-[16px] md:text-lg text-center mb-6 text-gray-300 font-roboto-mono">
+              Select a difficulty to begin your challenge
+            </p>
+
+            <div className="flex flex-col md:flex-row justify-center items-center gap-6 w-full max-w-[900px] px-4">
+              {difficultyDescriptions[selectedMode].map(({ level, description }) => (
+                <div key={level} className="w-2/3 md:w-[200px] lg:w-1/3 max-w-[300px]">
+                  {/* Button */}
+                  <div
+                    className={`w-full h-[65px] bg-gray-900 bg-opacity-70 border-2 rounded-sm cursor-pointer transition-all duration-200 hover:scale-105 ${
+                      level === "easy"
+                        ? "border-green-600 shadow-[0_0_5px_rgba(34,197,94,0.3)]"
+                        : level === "medium"
+                        ? "border-yellow-600 shadow-[0_0_5px_rgba(234,179,8,0.3)]"
+                        : "border-red-600 shadow-[0_0_5px_rgba(239,68,68,0.3)]"
+                    }`}
+                    onClick={() => handleDifficultyChange(level)}
+                  >
+                    <p
+                      className={`text-lg md:text-xl font-orbitron font-semibold text-center h-full flex items-center justify-center ${
+                        level === "easy"
+                          ? "text-green-300"
+                          : level === "medium"
+                          ? "text-yellow-300"
+                          : "text-red-300"
+                      }`}
+                    >
+                      {level.charAt(0).toUpperCase() + level.slice(1)}
+                    </p>
+                  </div>
+
+                  {/* Description Box */}
+                  <div
+                    className={`w-full bg-gray-900 bg-opacity-50 border-l border-r border-b border-gray-500 border-opacity-10 rounded-b-md px-3 py-2 ${
+                      level === "easy"
+                        ? "shadow-[0_0_4px_rgba(34,197,94,0.2)]"
+                        : level === "medium"
+                        ? "shadow-[0_0_4px_rgba(234,179,8,0.2)]"
+                        : "shadow-[0_0_4px_rgba(239,68,68,0.2)]"
+                    }`}
+                  >
+                    <p className="text-[12px] md:text-[14px] text-gray-400 font-roboto-mono text-center">
+                      {description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className={`w-[70%] md:w-1/2 lg:w-2/5 min-w-[200px] sm:min-w-[200px] max-w-[650px] mt-10 p-4 rounded-md ${modeStyles[selectedMode].instructionBox}`}>
+
+            <div className={`w-[70%] md:w-1/2 lg:w-2/5 min-w-[200px] max-w-[650px] mt-10 p-4 rounded-md ${modeStyles[selectedMode].instructionBox}`}>
               <p
                 className={`text-lg font-semibold font-orbitron text-center mb-2 ${
-                  selectedMode === "vocabHit"
-                    ? "text-amber-400"
-                    : selectedMode === "missingWord"
+                  selectedMode === "missingWord"
                     ? "text-cyan-400"
                     : selectedMode === "wordForge"
                     ? "text-pink-400"
@@ -262,14 +299,14 @@ const MainMenu = () => {
               {modeStyles[selectedMode].header}
             </h2>
             <p className="text-[16px] md:text-lg text-center mb-6 text-gray-300 font-roboto-mono">
-              Select a category to begin your challenge
+              {modeStyles[selectedMode].subtext}
             </p>
 
             <div className="flex flex-col md:flex-row justify-center items-center gap-6 w-full max-w-[900px] px-4">
               {[
                 { category: "emotion", color: "purple", text: "Emotions", description: "terms representing emotional states and feelings" },
                 { category: "action", color: "emerald", text: "Actions", description: "verbs indicating physical or active processes" },
-                { category: "general", color: "cyan", text: "General", description: "diverse terms excluding emotions and actions" }
+                { category: "general", color: "cyan", text: "General", description: "diverse terms excluding emotion and action" },
               ].map(({ category, text, description }) => (
                 <div key={category} className="w-2/3 md:w-[200px] lg:w-1/3 max-w-[300px]">
                   {/* Button */}
@@ -285,14 +322,18 @@ const MainMenu = () => {
                   >
                     <p
                       className={`text-lg md:text-xl font-orbitron font-semibold text-center h-full flex items-center justify-center ${
-                        category === "emotion" ? "text-purple-300" : category === "action" ? "text-emerald-300" : "text-cyan-300"
+                        category === "emotion"
+                          ? "text-purple-300"
+                          : category === "action"
+                          ? "text-emerald-300"
+                          : "text-cyan-300"
                       }`}
                     >
                       {text}
                     </p>
                   </div>
 
-                  {/* Description Box (Always Visible) */}
+                  {/* Description Box */}
                   <div
                     className={`w-full bg-gray-900 bg-opacity-50 border-l border-r border-b border-gray-500 border-opacity-10 rounded-b-md px-3 py-2 ${
                       category === "emotion"
@@ -315,39 +356,54 @@ const MainMenu = () => {
                 Directives
               </p>
               <div className="space-y-4 text-[14px] md:text-[16px] text-gray-300 font-roboto-mono">
-                <p>Enter the precise word that corresponds to the provided rephrased definition within the selected category.</p>
+                <p>{modeStyles[selectedMode].instruction[0]}</p>
               </div>
             </div>
           </>
         ) : selectedMode === "wordVerse" && difficulty && !wordVerseGameType ? (
           <>
             <h2
-              className={`text-xl md:text-2xl pt-10 font-orbitron mb-6 font-semibold text-center ${modeStyles[selectedMode].headerGradient} text-transparent bg-clip-text drop-shadow-[0_0_2px_rgba(255,255,255,0.2)]`}
+              className={`text-xl md:text-2xl font-orbitron mb-6 font-semibold text-center ${modeStyles[selectedMode].headerGradient} text-transparent bg-clip-text drop-shadow-[0_0_2px_rgba(255,255,255,0.2)]`}
             >
               {modeStyles[selectedMode].header}
             </h2>
-            <div className={`w-[90%] md:w-3/4 lg:w-2/3 max-w-[700px] p-4 mb-6 rounded-lg border ${modeStyles[selectedMode].bgClass}`}>
-              <p className="text-[16px] md:text-lg text-center mb-4 text-gray-300 font-roboto-mono">Select play style</p>
-              <div className="flex mb-2 md:mb-4 w-full justify-center space-x-4 text-[16px] md:text-xl font-semibold font-orbitron">
-                <button
-                  onClick={() => handleGameTypeChange("input")}
-                  className="w-[40vw] max-w-[240px] p-2 sm:p-3 md:p-4 border-2 bg-gray-800 bg-opacity-60 border-green-500/70 text-emerald-400 font-medium rounded-md shadow-[0_0_4px_rgba(34,197,94,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(34,197,94,0.4)] transition-all duration-200 group"
-                >
-                  Input
-                  <span className="absolute bottom-0 left-0 right-0 h-1 bg-green-500 rounded-md transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-80"></span>
-                </button>
-                <button
-                  onClick={() => handleGameTypeChange("options")}
-                  className="w-[40vw] max-w-[240px] p-2 sm:p-3 md:p-4 border-2 bg-gray-800 bg-opacity-60 border-green-500/70 text-emerald-400 font-medium rounded-md shadow-[0_0_4px_rgba(34,197,94,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(34,197,94,0.4)] transition-all duration-200 group"
-                >
-                  Options
-                  <span className="absolute bottom-0 left-0 right-0 h-1 bg-green-500 rounded-md transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-80"></span>
-                </button>
-              </div>
+            <p className="text-[16px] md:text-lg text-center mb-6 text-gray-300 font-roboto-mono">
+              Select play style
+            </p>
+
+            <div className="flex flex-col md:flex-row justify-center items-center gap-6 w-full max-w-[900px] px-4">
+              {[
+                { type: "input", text: "Input", description: "type synonym or antonym" },
+                { type: "options", text: "Options", description: "choose from four choices" },
+              ].map(({ type, text, description }) => (
+                <div key={type} className="w-2/3 md:w-[200px] lg:w-1/3 max-w-[300px]">
+                  {/* Button */}
+                  <div
+                    className={`w-full h-[65px] bg-gray-900 bg-opacity-70 border-2 border-green-600 shadow-[0_0_5px_rgba(34,197,94,0.3)] rounded-sm cursor-pointer transition-all duration-200 hover:scale-105`}
+                    onClick={() => handleGameTypeChange(type)}
+                  >
+                    <p className="text-lg md:text-xl font-orbitron font-semibold text-center h-full flex items-center justify-center text-green-300">
+                      {text}
+                    </p>
+                  </div>
+
+                  {/* Description Box */}
+                  <div
+                    className="w-full bg-gray-900 bg-opacity-50 border-l border-r border-b border-gray-500 border-opacity-10 rounded-b-md px-3 py-2 shadow-[0_0_4px_rgba(34,197,94,0.2)]"
+                  >
+                    <p className="text-[12px] md:text-[14px] text-gray-400 font-roboto-mono text-center">
+                      {description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className={`w-[70%] md:w-1/2 lg:w-2/5 min-w-[200px] sm:min-w-[200px] max-w-[600px] mt-6 p-4 rounded-md ${modeStyles[selectedMode].instructionBox}`}>
-              <p className="text-lg font-semibold font-orbitron text-center mb-2 text-green-400">Directives</p>
-              <div className="space-y-3 text-[16px] md:text-lg text-gray-300 font-roboto-mono">
+
+            <div className={`w-[70%] md:w-1/2 lg:w-2/5 min-w-[200px] max-w-[650px] mt-10 p-4 rounded-md ${modeStyles[selectedMode].instructionBox}`}>
+              <p className="text-lg font-semibold font-orbitron text-center mb-2 text-green-400">
+                Directives
+              </p>
+              <div className="space-y-4 text-[14px] md:text-[16px] text-gray-300 font-roboto-mono">
                 {modeStyles[selectedMode].instructionAfterDifficulty.map((item, index) => (
                   <div key={index} className="relative">
                     <p>{item}</p>
@@ -361,7 +417,7 @@ const MainMenu = () => {
           </>
         ) : (
           selectedMode === "vocabHit" ? (
-            <VocabHit category={category} /> 
+            <VocabHit category={category} />
           ) : selectedMode === "missingWord" ? (
             <MissingWord difficulty={difficulty} />
           ) : selectedMode === "wordForge" ? (

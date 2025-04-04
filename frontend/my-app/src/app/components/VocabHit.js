@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const prompt = `
 You are an AI that checks if a user’s word matches a clue based on its category.
-- Categories are: "emotions" (must be a feeling), "actions" (must be a verb), "general" (other words except emotion or action).
+- Categories are: "emotion" (must be a feeling), "action" (must be a verb), "general" (other words except emotion or action).
 - The clue is: "{clue}" (a simple rephrased definition).
 - The user’s input is: "{input}".
 - The category is: "{category}".
@@ -254,9 +254,9 @@ export default function VocabHit({ category }) { // Changed from difficulty
       </div>
       <div
         className={`px-4 py-1 rounded-md border text-lg bg-opacity-20 ${
-          category === "emotions" // Fixed typo: "emotion" → "emotions"
+          category === "emotion"
             ? "border-purple-600 text-purple-400 bg-purple-900"
-            : category === "actions" // Fixed typo: "action" → "actions"
+            : category === "action"
             ? "border-teal-600 text-teal-400 bg-teal-900"
             : "border-cyan-600 text-cyan-400 bg-cyan-900"
         }`}
