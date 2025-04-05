@@ -5,11 +5,11 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const prompt = `
 You are an AI that performs two tasks for a vocabulary game:
-1. **Check Fit**: For a paragraph "{paragraph}", word "{word}", and sentence "{sentence}", reply "1" if the sentence uses the word in a standard dictionary meaning, logically completes the paragraph as its final sentence, and is grammatically correct; reply "0" otherwise.
-2. **Generate Sentence**: For a paragraph "{paragraph}" and word "{word}", return a short sentence (max 10 words) using the word that logically completes the paragraph.
+1. **Check Fit**: For a paragraph "{paragraph}", word "{word}", and sentence "{sentence}", reply "1" if the sentence uses the word in a standard dictionary meaning (for Literal) or a figurative, metaphorical, or idiomatic meaning (for Figurative), logically uses the context of the paragraph, and is grammatically correct; reply "0" otherwise. Interpret the word’s meaning based on the task prefix (e.g., "Literal:" or "Figurative:").
+2. **Generate Sentence**: For a paragraph "{paragraph}" and word "{word}", return a short sentence (max 10 words) using the word in a standard dictionary meaning (for Literal) or a figurative, metaphorical, or idiomatic meaning (for Figurative) that logically uses the context the paragraph.
 `;
 
-export default function WordForge({ difficulty }) {
+export default function WordForge({ style }) {
   const [paragraph, setParagraph] = useState("");
   const [word, setWord] = useState("");
   const [sentence, setSentence] = useState("");
@@ -41,7 +41,7 @@ export default function WordForge({ difficulty }) {
       chatRef.current = chat;
 
       const testResponse = await chat.sendMessage(
-        `Paragraph: "The forest whispered secrets through rustling leaves." | Word: "signal" | Sentence: "A faint signal flickered in the distance."`
+        `${style === "literal" ? "Literal" : "Figurative"}: Paragraph: "The forest whispered secrets through rustling leaves." | Word: "signal" | Sentence: "A faint signal flickered in the distance."`
       );
       const testReply = await testResponse.response.text().trim();
       if (testReply !== "1" && testReply !== "0") {
@@ -51,15 +51,15 @@ export default function WordForge({ difficulty }) {
 
       const res = await fetch("/data/wordForge.json");
       const fetchedChallenges = await res.json();
-      setChallenges(fetchedChallenges[difficulty]);
+      setChallenges(fetchedChallenges[style]);
       setRemainingIndices(
-        Array.from({ length: fetchedChallenges[difficulty].length }, (_, i) => i)
+        Array.from({ length: fetchedChallenges[style].length }, (_, i) => i)
       );
       setIsGameReady(true);
     } catch (error) {
       console.error("Error initializing chat or fetching challenges:", error);
     }
-  }, [difficulty]);
+  }, [style]);
 
   useEffect(() => {
     if (!initializedRef.current) {
@@ -109,7 +109,7 @@ export default function WordForge({ difficulty }) {
       .replace("{paragraph}", paragraph);
     try {
       const response = await chatRef.current.sendMessage(
-        `1. Check Fit: ${formattedPrompt} | Sentence: "${sentence}"`
+        `${style === "literal" ? "Literal" : "Figurative"}: 1. Check Fit: ${formattedPrompt} | Sentence: "${sentence}"`
       );
       const aiReply = await response.response.text().trim();
       const isCorrect = aiReply === "1";
@@ -123,7 +123,7 @@ export default function WordForge({ difficulty }) {
           word,
           sentence,
           result: isCorrect ? "Forged" : "Failed",
-          aiSentence: "", // Placeholder, filled later
+          aiSentence: "",
         },
       ]);
   
@@ -139,14 +139,7 @@ export default function WordForge({ difficulty }) {
       setResult("error");
       setRoundResults((prev) => [
         ...prev,
-        {
-          serial: round,
-          paragraph,
-          word,
-          sentence,
-          result: "Error",
-          aiSentence: "",
-        },
+        { serial: round, paragraph, word, sentence, result: "Error", aiSentence: "" },
       ]);
       setLoading(false);
       setTimeout(() => {
@@ -154,8 +147,8 @@ export default function WordForge({ difficulty }) {
         setNextChallenge();
       }, 800);
     }
-  }, [sentence, word, paragraph, loading, round, setNextChallenge]);
-
+  }, [sentence, word, paragraph, loading, round, setNextChallenge, style]);
+  
   const handleGameOverPrep = useCallback(async () => {
     setShowTransition(true);
     try {
@@ -163,7 +156,7 @@ export default function WordForge({ difficulty }) {
         roundResults.map(async (result) => {
           if (!result.aiSentence) {
             const response = await chatRef.current.sendMessage(
-              `2. Generate Sentence: Paragraph: "${result.paragraph}" | Word: "${result.word}"`
+              `${style === "literal" ? "Literal" : "Figurative"}: 2. Generate Sentence: Paragraph: "${result.paragraph}" | Word: "${result.word}"`
             );
             const aiSentence = await response.response.text().trim();
             return { ...result, aiSentence };
@@ -175,10 +168,10 @@ export default function WordForge({ difficulty }) {
     } catch (error) {
       console.error("Error generating AI sentences:", error);
     }
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // Keep 1.5s transition
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     setShowTransition(false);
     setGameOver(true);
-  }, [roundResults]);
+  }, [roundResults, style]);
 
   const handleReset = useCallback(() => {
     setTimer(60);
@@ -271,8 +264,8 @@ export default function WordForge({ difficulty }) {
             <span className="text-pink-400">Accuracy:</span> {accuracy}%
           </p>
           <p className="text-xl text-gray-300 font-mono">
-            <span className="text-pink-400">Difficulty:</span>{" "}
-            {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+            <span className="text-pink-400">Play Style:</span>{" "}
+            {style === "literal" ? "Core" : "Flux"}
           </p>
         </div>
         <button
@@ -331,7 +324,7 @@ export default function WordForge({ difficulty }) {
                   <span className="px-1 text-center text-gray-300">{result.word}</span>
                   <span
                     className={`px-1 text-center ${
-                      result.result === "Forged" ? "text-green-400" : "text-red-400"
+                      result.result === "Forged" ? "text-green-400" : "text-purple-400"
                     }`}
                   >
                     {result.result}
@@ -386,7 +379,7 @@ export default function WordForge({ difficulty }) {
       </div>
 
       <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-purple-900 rounded-md w-[90%] md:w-3/4 lg:w-2/3 sm:max-w-[600px] md:max-w-[700px] items-center h-auto text-white shadow-[0_0_10px_rgba(236,72,153,0.3)]">
-        <div className="flex justify-between items-center w-full mb-4 px-2 relative">
+        <div className="flex justify-between items-center w-full mb-4 relative">
           <div className="flex items-center space-x-2 bg-gray-800 bg-opacity-60 border-2 border-purple-900 rounded-md px-3 py-1 shadow-[0_0_6px_rgba(236,72,153,0.4)]">
             <span className="text-pink-400 text-[16px] md:text-[18px] font-orbitron tracking-wider">
               #{round}
@@ -403,21 +396,19 @@ export default function WordForge({ difficulty }) {
           </div>
           <div
             className={`px-4 py-1 rounded-md border text-lg bg-opacity-20 ${
-              difficulty === "easy"
-                ? "border-green-600 text-green-400 bg-green-900"
-                : difficulty === "medium"
-                ? "border-yellow-600 text-yellow-400 bg-yellow-900"
-                : "border-red-600 text-red-400 bg-red-900"
+              style === "literal"
+                ? "border-emerald-600 text-emerald-400 bg-emerald-900"
+                : "border-sky-600 text-sky-400 bg-sky-900"
             }`}
           >
-            {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+            {style === "literal" ? "Core" : "Flux"}
           </div>
         </div>
 
-        <div className="relative w-full min-h-[150px] bg-purple-950 bg-opacity-30 border border-purple-900 rounded-md flex flex-col items-center justify-center px-6 mb-6 text-center shadow-inner">
+        <div className="relative w-full min-h-[180px] bg-purple-950 bg-opacity-30 border border-purple-900 rounded-md flex flex-col items-center justify-center px-6 mb-6 text-center shadow-inner">
           <motion.p
             key={round}
-            className="text-[14px] md:text-[16px] lg:text-[18px] font-mono text-gray-200 mb-2"
+            className="text-[16px] md:text-lg lg:text-xl font-mono text-purple-300 mb-2"
             initial={{ y: 0 }}
             animate={{ y: result !== null ? -10 : 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
@@ -468,10 +459,10 @@ export default function WordForge({ difficulty }) {
               ) : (
                 <div className="flex flex-col items-center space-y-2">
                   <div
-                    className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-lg px-4 py-2 shadow-[0_0_10px_rgba(239,68,68,0.7)]"
+                    className="bg-purple-900 bg-opacity-80 border-2 border-purple-500 rounded-lg px-4 py-2 shadow-[0_0_10px_rgba(239,68,68,0.7)]"
                     style={{ textShadow: "0 0 5px rgba(239, 68, 68, 0.9)" }}
                   >
-                    <p className="text-red-300 text-lg md:text-xl font-orbitron font-extrabold tracking-wider">
+                    <p className="text-purple-300 text-lg md:text-xl font-orbitron font-extrabold tracking-wider">
                       Failed!
                     </p>
                   </div>

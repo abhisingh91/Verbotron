@@ -366,7 +366,7 @@ export default function VocabHit({ category }) {
       </div>
 
       <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-amber-800 rounded-md w-[90%] md:w-3/4 lg:w-2/3 sm:max-w-[600px] md:max-w-[700px] items-center h-auto text-white shadow-[0_0_10px_rgba(249,115,22,0.3)]">
-        <div className="flex justify-between items-center w-full mb-4 px-2 relative">
+        <div className="flex justify-between items-center w-full mb-4 relative">
           <div className="flex items-center space-x-2 bg-gray-800 bg-opacity-60 border-2 border-amber-600 rounded-md px-3 py-1 shadow-[0_0_6px_rgba(249,115,22,0.4)]">
             <span className="text-amber-400 text-[16px] md:text-[18px] font-orbitron tracking-wider">
               #{serialCount}
