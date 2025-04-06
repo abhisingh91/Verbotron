@@ -133,10 +133,8 @@ export default function VocabHit({ category }) {
         setScore((prev) => prev + 1);
       }
 
-      setTimeout(() => {
-        setNextClue();
-        setSerialCount((prev) => prev + 1);
-      }, 800);
+      setNextClue();
+      setSerialCount((prev) => prev + 1);
     } catch (error) {
       console.error("Chat error:", error);
       setIsCorrect(false);
@@ -243,7 +241,7 @@ export default function VocabHit({ category }) {
           </p>
           <p className="text-xl text-gray-300 font-mono">
             <span className="text-amber-400">Category:</span>{" "}
-            {category === "emotions" ? "Emotions" : category === "actions" ? "Actions" : "General"}
+            {category === "emotion" ? "Emotions" : category === "action" ? "Actions" : "General"}
           </p>
         </div>
         <button
@@ -274,7 +272,7 @@ export default function VocabHit({ category }) {
           className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6"
           style={{ textShadow: "0 0 8px rgba(249, 115, 22, 0.5)" }}
         >
-          Round Details
+          Vocab Details
         </h1>
         <div
           className="w-full max-h-[400px] overflow-y-auto bg-gray-950 bg-opacity-50 border-2 border-amber-800 rounded-md p-2 shadow-inner"
@@ -383,9 +381,9 @@ export default function VocabHit({ category }) {
           </div>
           <div
             className={`px-4 py-1 rounded-md border text-lg bg-opacity-20 ${
-              category === "emotions"
+              category === "emotion"
                 ? "border-purple-600 text-purple-400 bg-purple-900"
-                : category === "actions"
+                : category === "action"
                 ? "border-teal-600 text-teal-400 bg-teal-900"
                 : "border-cyan-600 text-cyan-400 bg-cyan-900"
             }`}

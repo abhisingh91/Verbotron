@@ -254,6 +254,7 @@ canvas {
 .animate-glyph-spin {
   animation: glyph-spin 1.5s infinite linear;
 }
+
 .delay-200 {
   animation-delay: 0.2s;
 }

@@ -142,10 +142,8 @@ export default function WordForge({ style }) {
         { serial: round, paragraph, word, sentence, result: "Error", aiSentence: "" },
       ]);
       setLoading(false);
-      setTimeout(() => {
-        setRound((prev) => prev + 1);
-        setNextChallenge();
-      }, 800);
+      setRound((prev) => prev + 1);
+      setNextChallenge();
     }
   }, [sentence, word, paragraph, loading, round, setNextChallenge, style]);
   
@@ -258,13 +256,13 @@ export default function WordForge({ style }) {
             <span className="text-pink-400">Final Score:</span> {score}
           </p>
           <p className="text-xl text-gray-300 font-mono">
-            <span className="text-pink-400">Rounds Forged:</span> {roundsCompleted}
+            <span className="text-pink-400">Rounds:</span> {roundsCompleted}
           </p>
           <p className="text-xl text-gray-300 font-mono">
             <span className="text-pink-400">Accuracy:</span> {accuracy}%
           </p>
           <p className="text-xl text-gray-300 font-mono">
-            <span className="text-pink-400">Play Style:</span>{" "}
+            <span className="text-pink-400">Game Type:</span>{" "}
             {style === "literal" ? "Core" : "Flux"}
           </p>
         </div>
@@ -408,7 +406,7 @@ export default function WordForge({ style }) {
         <div className="relative w-full min-h-[180px] bg-purple-950 bg-opacity-30 border border-purple-900 rounded-md flex flex-col items-center justify-center px-6 mb-6 text-center shadow-inner">
           <motion.p
             key={round}
-            className="text-[16px] md:text-lg lg:text-xl font-mono text-purple-300 mb-2"
+            className="text-[16px] md:text-lg lg:text-xl font-mono text-gray-300 mb-2"
             initial={{ y: 0 }}
             animate={{ y: result !== null ? -10 : 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}

@@ -3,15 +3,24 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 const initialPrompt = `
 You are an AI assistant for a word sequence game. Task:
-- **Check Sequence**: For thread "{thread}" ("Chain" or "Clash"), previous "{previous}", input "{input}", reply "1" if correct next word, "0" if not. Ignore case, use standard English.
+- Check if input "{input}" is valid given thread "{thread}" ("Chain" or "Clash"), previous word "{previous}", and first word "{sequence[0]}" (if step > 0). Reply "1" for valid, "0" for invalid. Ignore case, use standard English.
 
-- **Rules**:
-  - "Chain": Related words (synonyms or shared trait). E.g., "glow" → "shine" (1), "dark" → "bright" (0).
-  - "Clash": Contrasting words (opposites or differences). E.g., "hot" → "cold" (1), "glow" → "shine" (0).
+- Rules:
+  - "Chain": Input must be a direct synonym or in the same specific category (e.g., "glow" and "shine" are light-related) as previous. No repeats of any prior sequence word. Examples:
+    - "glow" → "shine" (1) — light synonyms.
+    - "dark" → "night" (0) — not synonyms, vague overlap.
+    - "run" → "dash" → "run" (0) — repeat of first.
+  - "Clash": Input must be an opposite or clear contrast to previous and not match sequence[0] if step > 0. Examples:
+    - "hot" → "cold" (1) — opposites.
+    - "hot" → "cold" → "hot" (0) — matches sequence[0].
+    - "big" → "large" (0) — similar, not contrasting.
 
-- Reply only "1" or "0".
+- Use literal meanings, not metaphors. Reply only "1" or "0".
 `;
 
 export default function WordVerse({ thread }) {
@@ -33,9 +42,6 @@ export default function WordVerse({ thread }) {
   const initializedRef = useRef(false);
   const chatRef = useRef(null);
 
-  const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
   const initialize = useCallback(async () => {
     setIsGameReady(false);
     try {
@@ -45,7 +51,7 @@ export default function WordVerse({ thread }) {
       chatRef.current = chat;
 
       const testResponse = await chat.sendMessage(
-        `Check Sequence: Thread: "Chain" | Previous: "glow" | Input: "shine"`
+        `Check Sequence: Thread: "Chain" | Previous: "glow" | Input: "shine" | Sequence: "glow"`
       );
       const testReply = await testResponse.response.text().trim();
       if (testReply !== "1" && testReply !== "0") {
@@ -92,8 +98,7 @@ export default function WordVerse({ thread }) {
     }
     const idx = Math.floor(Math.random() * remainingIndices.length);
     const newClueIndex = remainingIndices[idx];
-    const newSequence = clues[newClueIndex].sequence;
-    setCurrentSequence([newSequence[0], "", ""]);
+    setCurrentSequence([clues[newClueIndex].sequence[0], "", ""]);
     setStep(0);
     setRemainingIndices((prev) => prev.filter((i) => i !== newClueIndex));
     setInput("");
@@ -101,16 +106,24 @@ export default function WordVerse({ thread }) {
     setCorrectAnswer("");
   }, [clues, remainingIndices]);
 
+  const nextRound = useCallback((delay) => {
+    setTimeout(() => {
+      setSerialCount((prev) => prev + 1);
+      setNextSequence();
+      setIsCorrect(null);
+    }, delay);
+  }, [setNextSequence]);
+
   const handleSubmit = useCallback(async () => {
     if (!input.trim() || !chatRef.current || isCorrect !== null) return;
     setIsCorrect(null);
-  
+
     const matchingClue = clues.find((c) => c.sequence[0] === currentSequence[0]);
-    const expectedWord = matchingClue ? matchingClue.sequence[step + 1] : "";
-  
+    const expectedWord = matchingClue?.sequence[step + 1] || "";
+
     try {
       const checkResponse = await chatRef.current.sendMessage(
-        `Check Sequence: Thread: "${thread}" | Previous: "${currentSequence[step]}" | Input: "${input}"`
+        `Check Sequence: Thread: "${thread}" | Previous: "${currentSequence[step]}" | Input: "${input}" | Sequence: "${currentSequence[0]}"`
       );
       const aiReply = await checkResponse.response.text().trim();
       const isAnswerCorrect = aiReply === "1";
@@ -121,14 +134,14 @@ export default function WordVerse({ thread }) {
         setIsCorrect(isAnswerCorrect);
       }
       setCorrectAnswer(expectedWord);
-  
+
       setRoundResults((prev) => {
         const lastResult = prev.find((r) => r.serial === serialCount) || {
           serial: serialCount,
           sequence: [...currentSequence],
           firstInput: null,
           secondInput: null,
-          result: null, // Add result field
+          result: null,
           correctWords: matchingClue.sequence.slice(1),
         };
         const updatedResult = {
@@ -140,43 +153,28 @@ export default function WordVerse({ thread }) {
           ? prev.map((r) => (r.serial === serialCount ? updatedResult : r))
           : [...prev, updatedResult];
       });
-  
+
       setInput("");
-  
+
       if (isAnswerCorrect) {
         setScore((prev) => prev + 1);
         const newSequence = [...currentSequence];
         newSequence[step + 1] = input;
         setCurrentSequence(newSequence);
         setStep((prev) => prev + 1);
-        if (step === 1) {
-          setTimeout(() => {
-            setSerialCount((prev) => prev + 1);
-            setNextSequence();
-            setIsCorrect(null);
-          }, 1000);
-        } else {
-          setTimeout(() => setIsCorrect(null), 600);
-        }
+        if (step === 1) nextRound(1000);
+        else setTimeout(() => setIsCorrect(null), 600);
       } else {
-        setTimeout(() => {
-          setSerialCount((prev) => prev + 1);
-          setNextSequence();
-          setIsCorrect(null);
-        }, 1000);
+        nextRound(1000);
       }
     } catch (error) {
       console.error("Chat error:", error);
       setIsCorrect(false);
       setCorrectAnswer(expectedWord);
       setInput("");
-      setTimeout(() => {
-        setSerialCount((prev) => prev + 1);
-        setNextSequence();
-        setIsCorrect(null);
-      }, 1000);
+      nextRound(1000);
     }
-  }, [input, isCorrect, currentSequence, step, thread, serialCount, setNextSequence]);
+  }, [input, isCorrect, currentSequence, step, thread, serialCount, nextRound]);
 
   const handleGameOverPrep = useCallback(async () => {
     setShowTransition(true);
@@ -207,9 +205,9 @@ export default function WordVerse({ thread }) {
       <div className="flex flex-col justify-center items-center h-[70vh] w-full text-white">
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="flex space-x-4">
-            <div className="w-4 h-4 bg-green-400 clip-glyph animate-glyph-spin"></div>
-            <div className="w-4 h-4 bg-green-500 clip-glyph animate-glyph-spin delay-200"></div>
-            <div className="w-4 h-4 bg-green-600 clip-glyph animate-glyph-spin delay-400"></div>
+            <div className={`w-4 h-4 bg-green-500 clip-glyph animate-glyph-spin`}></div>
+            <div className={`w-4 h-4 bg-green-500 clip-glyph animate-glyph-spin`}></div>
+            <div className={`w-4 h-4 bg-green-500 clip-glyph animate-glyph-spin`}></div>
           </div>
           <p className="text-lg text-gray-300 font-centauri">Warping...</p>
         </div>
@@ -226,11 +224,13 @@ export default function WordVerse({ thread }) {
               Warping Results...
             </p>
             <motion.div
-              className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[12px] border-b-green-400"
-              style={{ transformOrigin: "top" }}
+              className="relative w-[16px] h-[24px]"
               animate={{ rotate: [0, 360] }}
               transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-            />
+            >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[14px] border-t-green-400" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[14px] border-b-green-400" />
+            </motion.div>
           </div>
         </div>
       </div>
@@ -240,7 +240,6 @@ export default function WordVerse({ thread }) {
   if (gameOver && !showDetails) {
     const sequencesCompleted = serialCount - 1;
     const accuracy = sequencesCompleted > 0 ? ((score / (sequencesCompleted * 2)) * 100).toFixed(1) : "0.0";
-
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -248,17 +247,14 @@ export default function WordVerse({ thread }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex flex-col h-[70vh] justify-center items-center w-[90%] md:w-3/4 lg:w-2/3 text-white"
       >
-        <h1
-          className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6"
-          style={{ textShadow: "0 0 8px rgba(34, 197, 94, 0.5)" }}
-        >
+        <h1 className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6 text-shadow-glow">
           Verse Warped!
         </h1>
         <div className="bg-green-800 bg-opacity-20 border-2 border-green-900 rounded-lg p-6 w-[80vw] max-w-96 shadow-lg">
           <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Score:</span> {score}</p>
-          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Sequences:</span> {sequencesCompleted}</p>
+          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Rounds:</span> {sequencesCompleted}</p>
           <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Accuracy:</span> {accuracy}%</p>
-          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Thread:</span> {thread === "chain" ? "Chain" : "Clash"}</p>
+          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Play Style:</span> {thread === "chain" ? "Chain" : "Clash"}</p>
         </div>
         <button
           onClick={handleReset}
@@ -284,10 +280,7 @@ export default function WordVerse({ thread }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex flex-col h-[70vh] justify-center items-center w-[90%] md:w-3/4 lg:w-2/3 max-w-[800px] text-white"
       >
-        <h1
-          className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6"
-          style={{ textShadow: "0 0 8px rgba(34, 197, 94, 0.5)" }}
-        >
+        <h1 className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6 text-shadow-glow">
           Warp Details
         </h1>
         <div className="w-full max-h-[400px] overflow-y-auto bg-gray-950 bg-opacity-50 border-2 border-green-800 rounded-md p-2 shadow-inner">
@@ -297,7 +290,7 @@ export default function WordVerse({ thread }) {
             </p>
           ) : (
             <>
-              <div className="grid grid-cols-[0.5fr_1fr_1fr_1fr_1fr] py-2 border-b border-gray-700 text-[10px] md:text-[12px] lg:text-[14px] font-mono text-green-400 bg-gray-900 bg-opacity-30">
+              <div className="grid grid-cols-[0.7fr_2fr_1fr_1fr_1fr] py-2 border-b border-gray-700 text-[10px] md:text-[12px] lg:text-[14px] font-mono text-green-400 bg-gray-900 bg-opacity-30">
                 <span className="px-1 text-center">#</span>
                 <span className="px-1 text-center">Thread</span>
                 <span className="px-1 text-center">First</span>
@@ -307,14 +300,21 @@ export default function WordVerse({ thread }) {
               {roundResults.map((result, index) => (
                 <div
                   key={`${result.serial}-${index}`}
-                  className="grid grid-cols-[0.5fr_1fr_1fr_1fr_1fr] py-2 border-b border-gray-700 last:border-b-0 text-[10px] md:text-[12px] lg:text-[14px] font-mono"
+                  className="grid grid-cols-[0.7fr_2fr_1fr_1fr_1fr] py-2 border-b border-gray-700 last:border-b-0 text-[10px] md:text-[12px] lg:text-[14px] font-mono"
                 >
                   <span className="px-1 text-center text-gray-300">#{result.serial}</span>
                   <span className="px-1 text-center text-gray-300">{result.sequence[0]} → ___ → ___</span>
                   <span className="px-1 text-center text-gray-300">{result.firstInput || "-"}</span>
                   <span className="px-1 text-center text-gray-300">{result.secondInput || "-"}</span>
-                  <span className="px-1 text-center text-gray-300">{result.result || "-"}</span>
-                  <span className="col-span-5 px-1 text-center text-violet-500 italic">
+                  {
+                    result.result === "Warped" ? 
+                      <span className="px-1 text-center text-green-400">{result.result}</span> :
+                    result.result === "Broken" ?
+                      <span className="px-1 text-center text-red-400">{result.result}</span> :
+                      <span className="px-1 text-center text-gray-300">{result.result}</span>
+                  }
+                  
+                  <span className="col-span-5 px-1 mt-1 text-center text-violet-500 italic">
                     <span className="text-green-400">verbotron: </span> {result.correctWords.join(" → ")}
                   </span>
                 </div>
@@ -335,23 +335,7 @@ export default function WordVerse({ thread }) {
   return (
     <>
       <style jsx global>{`
-        @keyframes spark {
-          0% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(1.5); }
-          100% { opacity: 0; transform: scale(1); }
-        }
-        @keyframes glyphSpin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        .clip-glyph {
-          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-        }
-        .animate-glyph-spin {
-          animation: glyphSpin 1.5s infinite linear;
-        }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-400 { animation-delay: 0.4s; }
+        .text-shadow-glow { text-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
       `}</style>
       <div className="w-[40%] md:w-1/4 lg:w-1/5 sm:max-w-[600px] md:max-w-[700px]">
         <div className="bg-gray-900 bg-opacity-80 border-2 border-b-0 border-green-600 rounded-t-md p-2 flex justify-center items-center shadow-[0_0_8px_rgba(34,197,94,0.5)]">
@@ -374,7 +358,7 @@ export default function WordVerse({ thread }) {
               animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              THREAD
+              CONNECT
             </motion.span>
           </div>
           <div
@@ -391,24 +375,22 @@ export default function WordVerse({ thread }) {
         <div className="relative w-full min-h-[180px] bg-green-950 bg-opacity-30 border border-green-800 rounded-md flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
           <motion.div
             key={serialCount}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="flex flex-wrap justify-center gap-2 md:gap-4"
-            initial={{ y: 0 }}
-            animate={{ y: isCorrect === true && step === 2 ? -10 : 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             {currentSequence.map((word, index) => (
               <div
                 key={index}
-                className={`px-1 min-w-[75px] max-w-[80px] md:max-w-[120px] lg:max-w-[140px] h-[40px] md:h-[50px] flex items-center justify-center text-[14px] md:text-lg lg:text-xl font-mono truncate ${
+                className={`px-1 md:px-2 min-w-[75px] max-w-[80px] md:max-w-[120px] lg:max-w-[140px] h-[40px] md:h-[50px] flex items-center justify-center text-[14px] md:text-lg lg:text-xl font-mono truncate ${
                   word
                     ? thread === "chain"
-                      ? "text-blue-400 border-blue-500 bg-blue-800 bg-opacity-20"
-                      : "text-rose-400 border-rose-500 bg-rose-800 bg-opacity-20"
+                      ? "text-gray-300 border-blue-500 bg-blue-800 bg-opacity-10"
+                      : "text-gray-300 border-rose-500 bg-red-800 bg-opacity-10"
                     : "text-gray-400 border-gray-500 bg-gray-700 bg-opacity-10"
-                } border-2 border-opacity-40`}
-                style={{
-                  clipPath: "polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)",
-                }}
+                } border-2 border-opacity-80`}
+                style={{ clipPath: "polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%)" }}
               >
                 {word || "___"}
               </div>
@@ -423,19 +405,8 @@ export default function WordVerse({ thread }) {
             >
               {isCorrect ? (
                 step === 2 ? (
-                  <div
-                    className={`bg-opacity-80 border-2 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(${thread === "chain" ? "34,197,94" : "239,68,68"},0.7)] ${
-                      thread === "chain"
-                        ? "bg-green-900 border-green-500"
-                        : "bg-rose-900 border-rose-500"
-                    }`}
-                    style={{ textShadow: `0 0 5px rgba(${thread === "chain" ? "34, 197, 94" : "239, 68, 68"}, 0.9)` }}
-                  >
-                    <p
-                      className={`text-lg md:text-xl font-orbitron font-extrabold tracking-wider ${
-                        thread === "chain" ? "text-green-300" : "text-rose-300"
-                      }`}
-                    >
+                  <div className="bg-green-900 bg-opacity-80 border-2 border-green-500 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(20,248,68,0.7)] text-shadow-glow">
+                    <p className="text-lg md:text-xl font-orbitron font-extrabold tracking-wider text-green-300">
                       Warped!
                     </p>
                   </div>
@@ -443,7 +414,7 @@ export default function WordVerse({ thread }) {
                   <div
                     className={`bg-opacity-50 border rounded-md px-2 py-1 mt-1 shadow-[0_0_5px_rgba(${thread === "chain" ? "34,197,94" : "239,68,68"},0.5)] ${
                       thread === "chain"
-                        ? "bg-green-900 border-green-500 text-green-400"
+                        ? "bg-blue-900 border-blue-500 text-blue-400"
                         : "bg-rose-900 border-rose-500 text-rose-400"
                     }`}
                   >
@@ -453,10 +424,7 @@ export default function WordVerse({ thread }) {
                   </div>
                 )
               ) : (
-                <div
-                  className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(239,68,68,0.7)]"
-                  style={{ textShadow: "0 0 5px rgba(239, 68, 68, 0.9)" }}
-                >
+                <div className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(239,68,68,0.7)] text-shadow-glow">
                   <p className="text-lg md:text-xl font-orbitron font-extrabold tracking-wider text-red-300">
                     Broken!
                   </p>
@@ -472,9 +440,7 @@ export default function WordVerse({ thread }) {
             value={input}
             onChange={(e) => {
               const value = e.target.value;
-              if (/^[a-zA-Z]*$/.test(value) && value.length <= 20) {
-                setInput(value);
-              }
+              if (/^[a-zA-Z]*$/.test(value) && value.length <= 20) setInput(value);
             }}
             onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
             disabled={isCorrect !== null}

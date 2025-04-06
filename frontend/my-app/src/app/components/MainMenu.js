@@ -176,12 +176,12 @@ const MainMenu = () => {
                 >
                   Word Forge
                 </button>
-                <button
+                {/* <button
                   onClick={() => handleModeChange("missingWord")}
                   className="p-2.5 sm:p-3 md:p-4 lg:p-4 border-2 w-full max-w-[480px] md:max-w-[550px] lg:max-w-[600px] bg-gray-800 bg-opacity-60 border-cyan-500/70 text-cyan-400 font-semibold rounded-md shadow-[0_0_4px_rgba(34,211,238,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(34,211,238,0.4)] transition-all duration-200 group"
                 >
                   Missing Word
-                </button>
+                </button> */}
                 <button
                   onClick={() => handleModeChange("wordVerse")}
                   className="p-2.5 sm:p-3 md:p-4 lg:p-4 border-2 w-full max-w-[480px] md:max-w-[550px] lg:max-w-[600px] bg-gray-800 bg-opacity-60 border-green-500/70 text-green-400 font-semibold rounded-md shadow-[0_0_4px_rgba(34,197,94,0.2)] hover:scale-105 hover:bg-opacity-80 hover:shadow-[0_0_6px_rgba(34,197,94,0.4)] transition-all duration-200 group"
