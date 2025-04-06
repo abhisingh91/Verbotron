@@ -13,7 +13,7 @@ const MainMenu = () => {
   const [difficulty, setDifficulty] = useState(null); // For MissingWord
   const [style, setStyle] = useState(null); // For WordForge
   const [category, setCategory] = useState(null); // For VocabHit
-  const [thread, setThread] = useState(null); // For WordVerse (Chain/Clash)
+  const [thread, setThread] = useState(null); // For WordVerse (Ally/Rival)
   const [direction, setDirection] = useState(1);
 
   const handleModeChange = (mode) => {
@@ -81,9 +81,9 @@ const MainMenu = () => {
     wordVerse: {
       header: "Traverse the WordVerse",
       headerGradient: "bg-green-300",
-      subtext: "Choose a thread to weave or unravel words",
+      subtext: "Choose a path to get allies or pit rivals",
       instructionBox: "border-2 border-opacity-60 border-green-600 text-center bg-green-900 bg-opacity-20 shadow-green-500/20",
-      instruction: ["Link words in a chain of similarity or clash them with opposites."],
+      instruction: ["Link words that are synonyms or antonyms with literal or figurative twists."],
     },
   };
 
@@ -104,8 +104,8 @@ const MainMenu = () => {
 
   const threadDescriptions = {
     wordVerse: [
-      { thread: "chain", text: "Chain", description: "connect words by similarity or synonyms" },
-      { thread: "clash", text: "Clash", description: "contrast words with opposites or differences" },
+      { thread: "ally", text: "Ally", description: "connect words by similarity or synonyms" },
+      { thread: "rival", text: "Rival", description: "contrast words with opposites or differences" },
     ],
   };
 
@@ -436,7 +436,7 @@ const MainMenu = () => {
                 <div key={thread} className="w-2/3 md:w-[200px] lg:w-1/3 max-w-[300px]">
                   <div
                     className={`w-full h-[65px] bg-gray-900 bg-opacity-70 border-2 rounded-sm cursor-pointer transition-all duration-200 hover:scale-105 ${
-                      thread === "chain"
+                      thread === "ally"
                         ? "border-blue-600 shadow-[0_0_5px_rgba(34,97,194,0.3)]"
                         : "border-rose-600 shadow-[0_0_5px_rgba(200,218,48,0.3)]"
                     }`}
@@ -444,7 +444,7 @@ const MainMenu = () => {
                   >
                     <p
                       className={`text-lg md:text-xl font-orbitron font-semibold text-center h-full flex items-center justify-center ${
-                        thread === "chain" ? "text-blue-300" : "text-rose-300"
+                        thread === "ally" ? "text-blue-300" : "text-rose-300"
                       }`}
                     >
                       {text}
@@ -452,7 +452,7 @@ const MainMenu = () => {
                   </div>
                   <div
                     className={`w-full bg-gray-900 bg-opacity-50 border-l border-r border-b border-gray-500 border-opacity-10 rounded-b-md px-3 py-2 ${
-                      thread === "chain"
+                      thread === "ally"
                         ? "shadow-[0_0_4px_rgba(34,197,94,0.2)]"
                         : "shadow-[0_0_4px_rgba(239,68,68,0.2)]"
                     }`}

@@ -7,27 +7,31 @@ const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const initialPrompt = `
-You are an AI assistant for a word sequence game. Task:
-- Check if input "{input}" is valid given thread "{thread}" ("Chain" or "Clash"), previous word "{previous}", and first word "{sequence[0]}" (if step > 0). Reply "1" for valid, "0" for invalid. Ignore case, use standard English.
+You are an AI assistant for a word game. Task:
+- Check if input "{input}" is valid for thread "{thread}" ("Ally" or "Rival"), starter "{starter}", and context "{context}" ("direct" or "twist"). Reply "1" for valid, "0" for invalid. Ignore case, use standard English.
 
 - Rules:
-  - "Chain": Input must be a direct synonym or in the same specific category (e.g., "glow" and "shine" are light-related) as previous. No repeats of any prior sequence word. Examples:
-    - "glow" → "shine" (1) — light synonyms.
-    - "dark" → "night" (0) — not synonyms, vague overlap.
-    - "run" → "dash" → "run" (0) — repeat of first.
-  - "Clash": Input must be an opposite or clear contrast to previous and not match sequence[0] if step > 0. Examples:
-    - "hot" → "cold" (1) — opposites.
-    - "hot" → "cold" → "hot" (0) — matches sequence[0].
-    - "big" → "large" (0) — similar, not contrasting.
-
-- Use literal meanings, not metaphors. Reply only "1" or "0".
+  - "Ally": Input must be a synonym or same category as starter, matching the context.
+    - "direct": Physical/direct meaning only (e.g., "glow" → "shine" = 1, "glow" → "smart" = 0).
+    - "twist": Figurative/abstract meaning only (e.g., "glow" → "radiance" = 1, "glow" → "shine" = 0).
+  - "Rival": Input must be an opposite or clear contrast to starter, matching the context.
+    - "direct": Physical/direct opposite only (e.g., "hot" → "cold" = 1, "hot" → "dull" = 0).
+    - "twist": Figurative/abstract contrast only (e.g., "hot" → "dull" = 1, "hot" → "cold" = 0).
+  - Examples:
+    - "bright" (direct) → "clear" (1), "smart" (0), "dark" (1), "dull" (0).
+    - "bright" (twist) → "smart" (1), "clear" (0), "dull" (1), "dark" (0).
+    - "cold" (direct) → "hot" (1), "aloof" (0), "warm" (1), "friendly" (0).
+    - "cold" (twist) → "friendly" (1), "hot" (0), "warm" (1), "frigid" (0).
+    - "run" (direct) → "dash" (1), "flow" (0), "stop" (1), "rest" (1).
+    - "run" (twist) → "flow" (1), "dash" (0), "stall" (1), "break" (1).
+  - Context is strict—mismatches are invalid. Use standard meanings, no overlap. Reply only "1" or "0".
 `;
 
 export default function WordVerse({ thread }) {
   const [clues, setClues] = useState([]);
   const [remainingIndices, setRemainingIndices] = useState([]);
-  const [currentSequence, setCurrentSequence] = useState(["", "", ""]);
-  const [step, setStep] = useState(0);
+  const [currentPair, setCurrentPair] = useState(["", ""]); // [starter, input]
+  const [currentContext, setCurrentContext] = useState(""); // direct or twist
   const [input, setInput] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState("");
@@ -38,7 +42,6 @@ export default function WordVerse({ thread }) {
   const [isGameReady, setIsGameReady] = useState(false);
   const [roundResults, setRoundResults] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
-  const [showTransition, setShowTransition] = useState(false);
   const initializedRef = useRef(false);
   const chatRef = useRef(null);
 
@@ -51,7 +54,7 @@ export default function WordVerse({ thread }) {
       chatRef.current = chat;
 
       const testResponse = await chat.sendMessage(
-        `Check Sequence: Thread: "Chain" | Previous: "glow" | Input: "shine" | Sequence: "glow"`
+        `Check: Thread: "Ally" | Starter: "glow" | Input: "shine" | Context: "direct"`
       );
       const testReply = await testResponse.response.text().trim();
       if (testReply !== "1" && testReply !== "0") {
@@ -77,29 +80,29 @@ export default function WordVerse({ thread }) {
   }, [initialize]);
 
   useEffect(() => {
-    if (isGameReady && clues.length > 0 && !currentSequence[0]) {
-      setNextSequence();
+    if (isGameReady && clues.length > 0 && !currentPair[0]) {
+      setNextPair();
     }
   }, [isGameReady, clues]);
 
   useEffect(() => {
     if (timer === 0) {
-      handleGameOverPrep();
+      setGameOver(true);
     } else if (isGameReady && !gameOver) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
       return () => clearInterval(interval);
     }
   }, [timer, isGameReady, gameOver]);
 
-  const setNextSequence = useCallback(() => {
+  const setNextPair = useCallback(() => {
     if (remainingIndices.length === 0) {
-      handleGameOverPrep();
+      setGameOver(true);
       return;
     }
     const idx = Math.floor(Math.random() * remainingIndices.length);
     const newClueIndex = remainingIndices[idx];
-    setCurrentSequence([clues[newClueIndex].sequence[0], "", ""]);
-    setStep(0);
+    setCurrentPair([clues[newClueIndex].word, ""]);
+    setCurrentContext(clues[newClueIndex].context);
     setRemainingIndices((prev) => prev.filter((i) => i !== newClueIndex));
     setInput("");
     setIsCorrect(null);
@@ -109,21 +112,21 @@ export default function WordVerse({ thread }) {
   const nextRound = useCallback((delay) => {
     setTimeout(() => {
       setSerialCount((prev) => prev + 1);
-      setNextSequence();
+      setNextPair();
       setIsCorrect(null);
     }, delay);
-  }, [setNextSequence]);
+  }, [setNextPair]);
 
   const handleSubmit = useCallback(async () => {
     if (!input.trim() || !chatRef.current || isCorrect !== null) return;
     setIsCorrect(null);
 
-    const matchingClue = clues.find((c) => c.sequence[0] === currentSequence[0]);
-    const expectedWord = matchingClue?.sequence[step + 1] || "";
+    const matchingClue = clues.find((c) => c.word === currentPair[0]);
+    const expectedWord = matchingClue?.answer || "";
 
     try {
       const checkResponse = await chatRef.current.sendMessage(
-        `Check Sequence: Thread: "${thread}" | Previous: "${currentSequence[step]}" | Input: "${input}" | Sequence: "${currentSequence[0]}"`
+        `Check: Thread: "${thread}" | Starter: "${currentPair[0]}" | Input: "${input}" | Context: "${currentContext}"`
       );
       const aiReply = await checkResponse.response.text().trim();
       const isAnswerCorrect = aiReply === "1";
@@ -135,38 +138,21 @@ export default function WordVerse({ thread }) {
       }
       setCorrectAnswer(expectedWord);
 
-      setRoundResults((prev) => {
-        const lastResult = prev.find((r) => r.serial === serialCount) || {
+      setRoundResults((prev) => [
+        ...prev,
+        {
           serial: serialCount,
-          sequence: [...currentSequence],
-          firstInput: null,
-          secondInput: null,
-          result: null,
-          correctWords: matchingClue.sequence.slice(1),
-        };
-        const updatedResult = {
-          ...lastResult,
-          ...(step === 0 ? { firstInput: input } : { secondInput: input }),
-          result: isAnswerCorrect ? (step === 1 ? "Warped" : lastResult.result) : "Broken",
-        };
-        return prev.some((r) => r.serial === serialCount)
-          ? prev.map((r) => (r.serial === serialCount ? updatedResult : r))
-          : [...prev, updatedResult];
-      });
+          starter: currentPair[0],
+          input: input,
+          result: isAnswerCorrect ? "Locked" : "Missed",
+          correctAnswer: expectedWord,
+          context: currentContext,
+        },
+      ]);
 
       setInput("");
-
-      if (isAnswerCorrect) {
-        setScore((prev) => prev + 1);
-        const newSequence = [...currentSequence];
-        newSequence[step + 1] = input;
-        setCurrentSequence(newSequence);
-        setStep((prev) => prev + 1);
-        if (step === 1) nextRound(1000);
-        else setTimeout(() => setIsCorrect(null), 600);
-      } else {
-        nextRound(1000);
-      }
+      if (isAnswerCorrect) setScore((prev) => prev + 1);
+      nextRound(1000);
     } catch (error) {
       console.error("Chat error:", error);
       setIsCorrect(false);
@@ -174,14 +160,7 @@ export default function WordVerse({ thread }) {
       setInput("");
       nextRound(1000);
     }
-  }, [input, isCorrect, currentSequence, step, thread, serialCount, nextRound]);
-
-  const handleGameOverPrep = useCallback(async () => {
-    setShowTransition(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setShowTransition(false);
-    setGameOver(true);
-  }, []);
+  }, [input, isCorrect, currentPair, currentContext, thread, serialCount, nextRound]);
 
   const handleReset = useCallback(() => {
     setTimer(60);
@@ -191,8 +170,8 @@ export default function WordVerse({ thread }) {
     setInput("");
     setIsCorrect(null);
     setCorrectAnswer("");
-    setCurrentSequence(["", "", ""]);
-    setStep(0);
+    setCurrentPair(["", ""]);
+    setCurrentContext("");
     setRoundResults([]);
     setShowDetails(false);
     setIsGameReady(false);
@@ -215,31 +194,9 @@ export default function WordVerse({ thread }) {
     );
   }
 
-  if (showTransition) {
-    return (
-      <div className="flex flex-col justify-center items-center h-[50vh] w-[80%] md:w-2/3 lg:w-1/2 max-w-[600px] text-white">
-        <div className="relative w-full h-32 bg-gray-950 bg-opacity-50 border-2 border-green-800 rounded-md flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)] overflow-hidden">
-          <div className="relative z-10 flex items-center gap-4">
-            <p className="text-[18px] md:text-[20px] font-orbitron text-green-300 tracking-wider">
-              Warping Results...
-            </p>
-            <motion.div
-              className="relative w-[16px] h-[24px]"
-              animate={{ rotate: [0, 360] }}
-              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-            >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[14px] border-t-green-400" />
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[14px] border-b-green-400" />
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (gameOver && !showDetails) {
-    const sequencesCompleted = serialCount - 1;
-    const accuracy = sequencesCompleted > 0 ? ((score / (sequencesCompleted * 2)) * 100).toFixed(1) : "0.0";
+    const roundsCompleted = serialCount - 1;
+    const accuracy = roundsCompleted > 0 ? ((score / roundsCompleted) * 100).toFixed(1) : "0.0";
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -247,14 +204,14 @@ export default function WordVerse({ thread }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex flex-col h-[70vh] justify-center items-center w-[90%] md:w-3/4 lg:w-2/3 text-white"
       >
-        <h1 className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6 text-shadow-glow">
+        <h1 className="text-xl md:text-2xl font-orbitron text-white tracking-wide mb-6 text-shadow-glow">
           Verse Warped!
         </h1>
         <div className="bg-green-800 bg-opacity-20 border-2 border-green-900 rounded-lg p-6 w-[80vw] max-w-96 shadow-lg">
           <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Score:</span> {score}</p>
-          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Rounds:</span> {sequencesCompleted}</p>
+          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Rounds:</span> {roundsCompleted}</p>
           <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Accuracy:</span> {accuracy}%</p>
-          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Play Style:</span> {thread === "chain" ? "Chain" : "Clash"}</p>
+          <p className="text-xl text-gray-300 font-mono"><span className="text-green-400">Thread:</span> {thread === "ally" ? "Ally" : "Rival"}</p>
         </div>
         <button
           onClick={handleReset}
@@ -280,42 +237,41 @@ export default function WordVerse({ thread }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex flex-col h-[70vh] justify-center items-center w-[90%] md:w-3/4 lg:w-2/3 max-w-[800px] text-white"
       >
-        <h1 className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6 text-shadow-glow">
+        <h1 className="text-xl md:text-2xl font-orbitron text-white tracking-wide mb-6 text-shadow-glow">
           Warp Details
         </h1>
         <div className="w-full max-h-[400px] overflow-y-auto bg-gray-950 bg-opacity-50 border-2 border-green-800 rounded-md p-2 shadow-inner">
           {roundResults.length === 0 ? (
             <p className="text-[14px] md:text-[16px] lg:text-lg text-gray-400 font-mono text-center py-5">
-              No sequences attempted
+              No rounds attempted
             </p>
           ) : (
             <>
-              <div className="grid grid-cols-[0.7fr_2fr_1fr_1fr_1fr] py-2 border-b border-gray-700 text-[10px] md:text-[12px] lg:text-[14px] font-mono text-green-400 bg-gray-900 bg-opacity-30">
+              <div className="grid grid-cols-[0.7fr_1fr_1.5fr_1.5fr_1fr] py-2 border-b border-gray-700 text-[10px] md:text-[12px] lg:text-[14px] font-mono text-green-400 bg-gray-900 bg-opacity-30">
                 <span className="px-1 text-center">#</span>
-                <span className="px-1 text-center">Thread</span>
-                <span className="px-1 text-center">First</span>
-                <span className="px-1 text-center">Second</span>
+                <span className="px-1 text-center">Context</span>
+                <span className="px-1 text-center">Word</span>
+                <span className="px-1 text-center">Input</span>
                 <span className="px-1 text-center">Result</span>
               </div>
               {roundResults.map((result, index) => (
                 <div
                   key={`${result.serial}-${index}`}
-                  className="grid grid-cols-[0.7fr_2fr_1fr_1fr_1fr] py-2 border-b border-gray-700 last:border-b-0 text-[10px] md:text-[12px] lg:text-[14px] font-mono"
+                  className="grid grid-cols-[0.7fr_1fr_1.5fr_1.5fr_1fr] py-2 border-b border-gray-700 last:border-b-0 text-[10px] md:text-[12px] lg:text-[14px] font-mono"
                 >
                   <span className="px-1 text-center text-gray-300">#{result.serial}</span>
-                  <span className="px-1 text-center text-gray-300">{result.sequence[0]} → ___ → ___</span>
-                  <span className="px-1 text-center text-gray-300">{result.firstInput || "-"}</span>
-                  <span className="px-1 text-center text-gray-300">{result.secondInput || "-"}</span>
-                  {
-                    result.result === "Warped" ? 
-                      <span className="px-1 text-center text-green-400">{result.result}</span> :
-                    result.result === "Broken" ?
-                      <span className="px-1 text-center text-red-400">{result.result}</span> :
-                      <span className="px-1 text-center text-gray-300">{result.result}</span>
-                  }
-                  
+                  <span className="px-1 text-center text-gray-300">{result.context}</span>
+                  <span className="px-1 text-center text-gray-300">{result.starter}</span>
+                  <span className="px-1 text-center text-gray-300">{result.input || "-"}</span>
+                  <span className="px-1 text-center text-gray-300">
+                    {result.result === "Locked" ? (
+                      <span className="text-green-400">{result.result}</span>
+                    ) : (
+                      <span className="text-red-400">{result.result}</span>
+                    )}
+                  </span>
                   <span className="col-span-5 px-1 mt-1 text-center text-violet-500 italic">
-                    <span className="text-green-400">verbotron: </span> {result.correctWords.join(" → ")}
+                    <span className="text-green-400">verbotron: </span> {result.correctAnswer}
                   </span>
                 </div>
               ))}
@@ -358,34 +314,37 @@ export default function WordVerse({ thread }) {
               animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              CONNECT
+              WARP
             </motion.span>
           </div>
           <div
             className={`px-4 py-1 rounded-md border text-lg bg-opacity-20 ${
-              thread === "chain"
+              thread === "ally"
                 ? "border-blue-600 text-blue-400 bg-blue-900"
                 : "border-rose-600 text-rose-400 bg-rose-900"
             }`}
           >
-            {thread === "chain" ? "Chain" : "Clash"}
+            {thread === "ally" ? "Ally" : "Rival"}
           </div>
         </div>
 
         <div className="relative w-full min-h-[180px] bg-green-950 bg-opacity-30 border border-green-800 rounded-md flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
+          <div className="absolute top-2 left-2 text-[12px] md:text-[14px] lg:text-[16px] font-mono text-green-400">
+            [{currentContext}]
+          </div>
           <motion.div
             key={serialCount}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="flex flex-wrap justify-center gap-2 md:gap-4"
+            className="flex flex-wrap justify-center gap-4"
           >
-            {currentSequence.map((word, index) => (
+            {currentPair.map((word, index) => (
               <div
                 key={index}
-                className={`px-1 md:px-2 min-w-[75px] max-w-[80px] md:max-w-[120px] lg:max-w-[140px] h-[40px] md:h-[50px] flex items-center justify-center text-[14px] md:text-lg lg:text-xl font-mono truncate ${
+                className={`px-2 min-w-[80px] max-w-[100px] md:max-w-[120px] h-[40px] md:h-[50px] flex items-center justify-center text-[14px] md:text-lg lg:text-xl font-mono truncate ${
                   word
-                    ? thread === "chain"
+                    ? thread === "ally"
                       ? "text-gray-300 border-blue-500 bg-blue-800 bg-opacity-10"
                       : "text-gray-300 border-rose-500 bg-red-800 bg-opacity-10"
                     : "text-gray-400 border-gray-500 bg-gray-700 bg-opacity-10"
@@ -404,29 +363,15 @@ export default function WordVerse({ thread }) {
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {isCorrect ? (
-                step === 2 ? (
-                  <div className="bg-green-900 bg-opacity-80 border-2 border-green-500 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(20,248,68,0.7)] text-shadow-glow">
-                    <p className="text-lg md:text-xl font-orbitron font-extrabold tracking-wider text-green-300">
-                      Warped!
-                    </p>
-                  </div>
-                ) : (
-                  <div
-                    className={`bg-opacity-50 border rounded-md px-2 py-1 mt-1 shadow-[0_0_5px_rgba(${thread === "chain" ? "34,197,94" : "239,68,68"},0.5)] ${
-                      thread === "chain"
-                        ? "bg-blue-900 border-blue-500 text-blue-400"
-                        : "bg-rose-900 border-rose-500 text-rose-400"
-                    }`}
-                  >
-                    <p className="text-sm md:text-base font-orbitron font-bold tracking-wide">
-                      Linked
-                    </p>
-                  </div>
-                )
+                <div className="bg-green-900 bg-opacity-80 border-2 border-green-500 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(20,248,68,0.7)] text-shadow-glow">
+                  <p className="text-lg md:text-xl font-orbitron font-extrabold tracking-wider text-green-300">
+                    Warped!
+                  </p>
+                </div>
               ) : (
                 <div className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-lg px-4 py-2 mt-1 shadow-[0_0_10px_rgba(239,68,68,0.7)] text-shadow-glow">
                   <p className="text-lg md:text-xl font-orbitron font-extrabold tracking-wider text-red-300">
-                    Broken!
+                    Missed!
                   </p>
                 </div>
               )}
@@ -446,7 +391,7 @@ export default function WordVerse({ thread }) {
             disabled={isCorrect !== null}
             spellCheck={false}
             className="w-full p-2.5 md:p-3 text-[16px] md:text-xl bg-gray-800 border border-green-600 rounded-md text-gray-200 focus:outline-none focus:ring-0 focus:border-green-500"
-            placeholder={`Next ${thread}...`}
+            placeholder={`Next ${thread === "ally" ? "ally" : "rival"}...`}
           />
           <button
             onClick={handleSubmit}
