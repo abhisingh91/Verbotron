@@ -15,14 +15,14 @@ const Starfield3D = () => {
     mountRef.current.appendChild(renderer.domElement);
 
     // Starfield setup
-    const starCount = 2000;
+    const starCount = 3000;
     const starGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(starCount * 3);
     const sizes = new Float32Array(starCount);
     const colors = new Float32Array(starCount * 3);
 
     const spread = 1000;
-    const depth = 2000;
+    const depth = 1000;
 
     for (let i = 0; i < starCount; i++) {
       // Spherical distribution with even spread

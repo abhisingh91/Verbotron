@@ -139,7 +139,7 @@
   { "clue": "Having or showing a tendency to be easily angered", "word": "irascible", "secondWord": "choleric", "category": "general" },
   { "clue": "Lacking moral principles; corrupt", "word": "unscrupulous", "secondWord": "deceitful", "category": "general" },
   { "clue": "Extremely bad or unpleasant", "word": "abominable", "secondWord": "detestable", "category": "general" },
-  { "clue": "Open to more than one interpretation; ambiguous", "word": "equivocal", "secondWord": "vague", "category": "general" },
+  { "clue": "Open to more than one interpretation", "word": "equivocal", "secondWord": "vague", "category": "general" },
   { "clue": "Having a harmful influence", "word": "pernicious", "secondWord": "detrimental", "category": "general" },
   { "clue": "Showing inventiveness and skill", "word": "ingenious", "secondWord": "clever", "category": "general" },
   { "clue": "Not genuine or sincere", "word": "specious", "secondWord": "fallacious", "category": "general" },
