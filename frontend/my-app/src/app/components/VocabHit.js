@@ -241,7 +241,7 @@ export default function VocabHit({ category }) {
           </p>
           <p className="text-xl text-gray-300 font-mono">
             <span className="text-amber-400">Category:</span>{" "}
-            {category === "emotion" ? "Emotions" : category === "action" ? "Actions" : "General"}
+            {category === "emotion" ? "Aether" : category === "action" ? "Surge" : "Nexus"}
           </p>
         </div>
         <button
@@ -337,7 +337,7 @@ export default function VocabHit({ category }) {
   }
 
   return (
-    <>
+    <div className="flex flex-col w-full justify-center items-center">
       <style jsx global>{`
         @keyframes spark {
           0% { opacity: 1; transform: scale(1); }
@@ -388,14 +388,14 @@ export default function VocabHit({ category }) {
                 : "border-cyan-600 text-cyan-400 bg-cyan-900"
             }`}
           >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
+            {category === "emotion" ? "Aether" : category === "action" ? "Surge" : "Nexus"}
           </div>
         </div>
 
         <div className="relative w-full min-h-[150px] bg-amber-950 bg-opacity-30 border border-amber-800 rounded-md flex flex-col items-center justify-center px-6 mb-6 text-center shadow-inner">
           <motion.h1
             key={serialCount}
-            className="text-[16px] md:text-lg lg:text-xl font-mono font-medium text-amber-300 tracking-wide overflow-hidden break-words leading-relaxed w-full"
+            className="text-[16px] md:text-lg lg:text-xl font-mono text-gray-300 tracking-wide overflow-hidden break-words leading-relaxed w-full"
             initial={{ y: 0 }}
             animate={{ y: isCorrect !== null ? -10 : 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
@@ -482,6 +482,6 @@ export default function VocabHit({ category }) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

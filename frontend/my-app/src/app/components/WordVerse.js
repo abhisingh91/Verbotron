@@ -289,7 +289,7 @@ export default function WordVerse({ thread }) {
   }
 
   return (
-    <>
+    <div className="flex flex-col w-full justify-center items-center">
       <style jsx global>{`
         .text-shadow-glow { text-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
       `}</style>
@@ -410,6 +410,6 @@ export default function WordVerse({ thread }) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

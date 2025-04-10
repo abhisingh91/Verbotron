@@ -162,9 +162,13 @@ export default function Home() {
         {selectedMode && (
           <button
             onClick={handleGoBack}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleGoBack();
+            }}
             className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full border-2 flex items-center justify-center font-orbitron opacity-70 transition-transform duration-200 ${
               backButtonColor[selectedMode] || "text-gray-300 border-gray-300"
-            } hover:scale-110 active:scale-90`}
+            } hover:scale-110 active:bg-gray-800`}
           >
             {"<<"}
           </button>
@@ -189,25 +193,25 @@ export default function Home() {
                 <div className="flex flex-col space-y-5 text-lg md:text-[20px] font-semibold font-orbitron">
                   <button
                     onClick={() => handleModeChange("vocabHit")}
-                    className="p-2.5 sm:p-3 md:p-4 lg:p-4 border-2 w-full bg-gray-900 bg-opacity-60 border-amber-500 text-amber-400 rounded-sm shadow-[0_0_4px_rgba(249,115,22,0.2)] hover:scale-105 hover:tracking-[16px] transition-all duration-200"
+                    className="border-2 w-full h-[50px] md:h-[60px] bg-gray-900 bg-opacity-40 border-amber-500 text-amber-400 rounded-sm shadow-[0_0_4px_rgba(249,115,22,0.2)] vector-button"
                   >
                     Vocab Hit
                   </button>
                   <button
                     onClick={() => handleModeChange("wordForge")}
-                    className="p-2.5 sm:p-3 md:p-4 lg:p-4 border-2 w-full bg-gray-900 bg-opacity-60 border-pink-500 text-pink-400 rounded-sm shadow-[0_0_4px_rgba(236,72,153,0.2)] hover:scale-105 hover:tracking-[16px] transition-all duration-200"
+                    className="border-2 w-full h-[50px] md:h-[60px] bg-gray-900 bg-opacity-40 border-pink-500 text-pink-400 rounded-sm shadow-[0_0_4px_rgba(236,72,153,0.2)] vector-button"
                   >
                     Word Forge
                   </button>
                   <button
                     onClick={() => handleModeChange("wordVerse")}
-                    className="p-2.5 sm:p-3 md:p-4 lg:p-4 border-2 w-full bg-gray-900 bg-opacity-60 border-green-500 text-green-400 rounded-sm shadow-[0_0_4px_rgba(236,72,153,0.2)] hover:scale-105 hover:tracking-[16px] transition-all duration-200"
+                    className="border-2 w-full h-[50px] md:h-[60px] bg-gray-900 bg-opacity-40 border-green-500 text-green-400 rounded-sm shadow-[0_0_4px_rgba(236,72,153,0.2)] vector-button"
                   >
                     Word Verse
                   </button>
                 </div>
                 <p className="text-[14px] md:text-[16px] text-center text-gray-300 font-roboto-mono mt-4">
-                  Choose your game mode to proceed
+                  Choose any module to proceed
                 </p>
                 <div className="mt-8 w-full text-center">
                   <p className="p-4 flex items-center text-left text-[12px] md:text-sm font-roboto-mono rounded-lg border-2 border-opacity-50 border-violet-700 bg-fuchsia-950 bg-opacity-10 text-gray-100">
@@ -226,11 +230,11 @@ export default function Home() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
-                <div className="node-bg border-2 border-purple-600 rounded-sm p-4 lg:px-8">
-                  <h3 className="text-center text-xl font-orbitron text-purple-400 tracking-wider mb-4 sub-header">
+                <div className="node-bg border border-purple-600 rounded-sm">
+                  <h3 className="text-center text-xl font-orbitron text-purple-400 tracking-wider border-b border-purple-600 py-2 mb-4 sub-header">
                     Transmissions
                   </h3>
-                  <ul className="text-sm text-gray-300 font-roboto-mono text-left list-disc list-inside space-y-4">
+                  <ul className="text-sm text-gray-300 font-roboto-mono text-left list-disc list-inside p-4 pt-0 space-y-4">
                     <li>Stay tuned for vocabulary expansion updates.</li>
                     <li>Launched: Mar 26, 2025 - v1.0 English edition released.</li>
                   </ul>
@@ -243,11 +247,11 @@ export default function Home() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
-                <div className="node-bg border-2 border-purple-600 rounded-sm p-4 lg:px-8">
-                  <h3 className="text-center text-xl font-orbitron text-purple-400 tracking-wider mb-4 sub-header">
+                <div className="node-bg border border-purple-600 rounded-sm">
+                  <h3 className="text-center text-xl font-orbitron text-purple-400 tracking-wider border-b border-purple-600 py-2 mb-4 sub-header">
                     Core Data
                   </h3>
-                  <p className="text-sm text-gray-300 font-roboto-mono leading-tight">
+                  <p className="text-sm text-gray-300 font-roboto-mono leading-tight p-4 pt-0">
                     Verbotron is a futuristic word game that enhances your vocabulary
                     through engaging, interactive challenges. <br />
                     <br />
@@ -276,8 +280,8 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="text-sm md:text-[16px] w-full text-center text-gray-400 py-2">
-        © 2025 verbotron.io 🌌 v1.0.0
+      <footer className="text-sm md:text-[16px] w-full font-roboto-mono text-center text-gray-400 py-1">
+        <span className="font-sans">©</span>2025 verbotron.io 🌌 v1.0.0
       </footer>
     </div>
   );

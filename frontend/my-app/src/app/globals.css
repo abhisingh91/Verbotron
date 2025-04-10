@@ -295,3 +295,12 @@ canvas {
   50% { transform: translateY(-4px) translateX(2px); }
   100% { transform: translateY(0) translateX(0); }
 }
+
+
+.vector-button {
+  transition: transform 0.2s ease, letter-spacing 0.2s ease, box-shadow 0.2s ease;
+}
+.vector-button:hover {
+  transform: scale(1.05);
+  letter-spacing: 10px;
+}

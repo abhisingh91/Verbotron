@@ -350,7 +350,7 @@ export default function WordForge({ style }) {
   }
 
   return (
-    <>
+    <div className="flex flex-col w-full justify-center items-center">
       <style jsx global>{`
         @keyframes spark {
           0% { opacity: 1; transform: scale(1); }
@@ -503,6 +503,6 @@ export default function WordForge({ style }) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
