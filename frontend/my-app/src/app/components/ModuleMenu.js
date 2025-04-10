@@ -34,7 +34,7 @@ const ModuleMenu = ({
       border: "border-[1px] border-amber-600",
       text: "text-amber-300",
       directiveColor: "text-amber-400",
-      scanline: "rgba(251,191,36,0.1)",
+      scanline: "bg-amber-700",
     },
     missingWord: {
       header: "Unveil the Missing Word",
@@ -44,7 +44,7 @@ const ModuleMenu = ({
       border: "border-[1px] border-cyan-600",
       text: "text-cyan-300",
       directiveColor: "text-cyan-400",
-      scanline: "rgba(34,211,238,0.1)",
+      scanline: "bg-cyan-700",
     },
     wordForge: {
       header: "Forge Your Word Mastery",
@@ -54,7 +54,7 @@ const ModuleMenu = ({
       border: "border-[1px] border-pink-600",
       text: "text-pink-300",
       directiveColor: "text-pink-400",
-      scanline: "rgba(236,72,153,0.1)",
+      scanline: "bg-pink-700",
     },
     wordVerse: {
       header: "Traverse the Word Verse",
@@ -64,7 +64,7 @@ const ModuleMenu = ({
       border: "border-[1px] border-green-600",
       text: "text-green-300",
       directiveColor: "text-green-400",
-      scanline: "rgba(34,197,94,0.1)",
+      scanline: "bg-green-700",
     },
   };
 
@@ -185,8 +185,7 @@ const ModuleMenu = ({
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className={`relative w-[80%] max-w-3xl h-auto min-h-[300px] pb-14 md:pb-16 pt-8 md:pt-10 border border-t-0 border-gray-800 bg-gray-900 bg-opacity-50 rounded-sm flex flex-col items-center justify-center gap-6 mt-0`}
-              style={{ background: `repeating-linear-gradient(0deg, ${modeStyles[selectedMode].scanline}, ${modeStyles[selectedMode].scanline} 1px, transparent 2px, transparent 4px)` }}
+              className={`relative w-[80%] max-w-3xl h-auto min-h-[300px] pb-14 md:pb-16 pt-8 md:pt-10 border border-t-0 border-gray-800 ${modeStyles[selectedMode].scanline} bg-opacity-5 rounded-sm flex flex-col items-center justify-center gap-6 mt-0`}
             >
               <TypingText text={modeStyles[selectedMode].subtext} color={modeStyles[selectedMode].text} />
               <motion.div
