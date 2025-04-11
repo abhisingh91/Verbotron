@@ -7,8 +7,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const initialPrompt = `
 You are an AI assistant for a vocabulary game with three tasks:
 1. **Check Answer**: For a clue "{clue}", user input "{input}", and category "{category}" (emotions: feelings, actions: verbs, general: others), reply "1" if the input matches the clue's meaning or is a synonym, fits the category, and isn’t in the clue; reply "0" otherwise. Use standard English, ignore case, be precise.
-2. **Generate Sentence**: For a word "{word}" and category "{category}", return a short, simple sentence (5-8 words) using the word, fitting the category.
-3. **Get Synonym**: For a word "{word}" and category "{category}", return a synonym fitting the category.`
+2. **Generate Sentences**: For a list of words "{word1},{word2},...,{wordN}" and category "{category}", return a list of short, simple sentences (5-8 words each) using each word, fitting the category, in the format "sentence1|sentence2|...|sentenceN".
+3. **Get Synonym**: For a word "{word}" and category "{category}", return a synonym fitting the category.
+`;
 
 export default function VocabHit({ category }) {
   const [clues, setClues] = useState([]);
@@ -29,8 +30,8 @@ export default function VocabHit({ category }) {
   const initializedRef = useRef(false);
   const chatRef = useRef(null);
   const inputRef = useRef(null);
-  const logLargeRef = useRef(null); // For large devices
-  const logSmallRef = useRef(null); // For small devices
+  const logLargeRef = useRef(null);
+  const logSmallRef = useRef(null);
 
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -49,10 +50,11 @@ export default function VocabHit({ category }) {
       const testReply = await testResponse.response.text().trim();
       if (testReply !== "1" && testReply !== "0") {
         console.error("Chat test failed:", testReply);
-        return;
+        throw new Error("Chat initialization failed");
       }
 
-      const res = await fetch('/data/vocabHit.json');
+      const res = await fetch("/data/vocabHit.json", { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch vocab data");
       const vocabData = await res.json();
       const filteredClues = vocabData.filter((item) => item.category === category);
 
@@ -61,6 +63,7 @@ export default function VocabHit({ category }) {
       setIsGameReady(true);
     } catch (error) {
       console.error("Error initializing:", error);
+      setIsGameReady(true); // Proceed even if chat fails
     }
   }, [category]);
 
@@ -108,12 +111,13 @@ export default function VocabHit({ category }) {
     setIsCorrect(null);
     setCorrectAnswer("");
     setDiagnostics("Core: 13K | Sig: 92% | Flux: 0.7 mT");
+    setTimeout(() => inputRef.current?.focus(), 0); // Ensure focus after render
   }, [clues, remainingIndices]);
 
   const handleSubmit = useCallback(async () => {
     if (!input.trim() || !chatRef.current || isCorrect !== null) return;
     setIsCorrect(null);
-  
+
     try {
       const checkResponse = await chatRef.current.sendMessage(
         `Check Answer: Clue: "${currentClue.clue}", Input: "${input}", Category: "${category}"`
@@ -122,10 +126,10 @@ export default function VocabHit({ category }) {
       const isAnswerCorrect = aiReply === "1";
       setIsCorrect(isAnswerCorrect);
       setCorrectAnswer(currentClue.word);
-  
+
       const now = new Date();
       const timeString = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
-  
+
       setRoundResults((prev) => [
         ...prev,
         {
@@ -135,20 +139,19 @@ export default function VocabHit({ category }) {
           result: isAnswerCorrect ? "Hit" : "Miss",
           correctWord: currentClue.word,
           secondWord: currentClue.secondWord,
-          sentence: "", // Empty until game over
+          sentence: "",
           time: timeString,
         },
       ]);
-  
+
       if (isAnswerCorrect) {
         setScore((prev) => prev + 1);
       }
-  
+
       setTimeout(() => {
         setNextClue();
         setSerialCount((prev) => prev + 1);
-        inputRef.current?.blur();
-      }, 800); // 800ms delay like WordForge
+      }, 800);
     } catch (error) {
       console.error("Chat error:", error);
       setIsCorrect(false);
@@ -156,31 +159,33 @@ export default function VocabHit({ category }) {
       setTimeout(() => {
         setNextClue();
         setSerialCount((prev) => prev + 1);
-        inputRef.current?.blur();
-      }, 800); // Consistent 800ms delay on error
+      }, 800);
     }
   }, [input, isCorrect, currentClue, category, serialCount, setNextClue]);
 
   const handleGameOverPrep = useCallback(async () => {
     setShowTransition(true);
     try {
-      const updatedResults = await Promise.all(
-        roundResults.map(async (result) => {
-          if (!result.sentence) {
-            const sentenceResponse = await chatRef.current.sendMessage(
-              `Generate Sentence: Word: "${result.correctWord}", Category: "${category}"`
-            );
-            const sentence = await sentenceResponse.response.text().trim();
-            return { ...result, sentence };
-          }
-          return result;
-        })
-      );
-      setRoundResults(updatedResults);
+      if (roundResults.length > 0) {
+        const words = roundResults.map((r) => r.correctWord).join(",");
+        const sentenceResponse = await chatRef.current.sendMessage(
+          `Generate Sentences: Words: "${words}", Category: "${category}"`
+        );
+        const sentences = (await sentenceResponse.response.text().trim()).split("|");
+        setRoundResults((prev) =>
+          prev.map((r, i) => ({
+            ...r,
+            sentence: sentences[i] || "N/A",
+          }))
+        );
+      }
     } catch (error) {
-      console.error("Error generating sentences:", error);
+      console.error("Sentence generation error:", error);
+      setRoundResults((prev) =>
+        prev.map((r) => ({ ...r, sentence: "N/A" }))
+      );
     }
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setShowTransition(false);
     setGameOver(true);
   }, [roundResults, category]);
@@ -196,6 +201,7 @@ export default function VocabHit({ category }) {
     setCurrentClue(null);
     setRoundResults([]);
     setShowDetails(false);
+    setShowTransition(false);
     setIsGameReady(false);
     setDiagnostics(null);
     initializedRef.current = false;
@@ -229,7 +235,7 @@ export default function VocabHit({ category }) {
   if (showTransition) {
     return (
       <div className="flex flex-col justify-center items-center h-[50vh] w-[80%] md:w-2/3 lg:w-1/2 max-w-[600px] text-white">
-        <div className="relative w-full h-32 bg-gray-950 bg-opacity-50 border-2 border-amber-800 rounded-sm flex items-center justify-center shadow-[0_0_10px_rgba(249,115,22,0.3)] overflow-hidden">
+        <div className="relative w-full h-32 bg-gray-950 bg-opacity-50 border-2 border-amber-800 rounded-md flex items-center justify-center shadow-[0_0_10px_rgba(249,115,22,0.3)] overflow-hidden">
           <div className="relative z-10 flex items-center gap-6">
             <p className="text-[18px] md:text-[20px] font-orbitron text-amber-300 tracking-wider">
               Processing Data...
@@ -257,38 +263,38 @@ export default function VocabHit({ category }) {
         className="flex flex-col h-[70vh] justify-center items-center w-[90%] md:w-3/4 lg:w-2/3 text-white"
       >
         <h1
-          className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-6"
-          style={{ textShadow: "0 0 8px rgba(249, 115, 22, 0.5)" }}
+          className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-2 typing"
+          style={{ textShadow: "0 0 8px rgba(249, 115, 22, 0.8)" }}
         >
-          Vocab Hit Complete!
+          Phase Complete
         </h1>
-        <div className="bg-amber-800 bg-opacity-20 border-2 border-amber-900 rounded-sm p-6 w-[80vw] max-w-96 shadow-lg">
-          <p className="text-xl text-gray-300 font-mono">
-            <span className="text-amber-400">Score:</span> {score}
-          </p>
-          <p className="text-xl text-gray-300 font-mono">
-            <span className="text-amber-400">Rounds:</span> {roundsCompleted}
-          </p>
-          <p className="text-xl text-gray-300 font-mono">
-            <span className="text-amber-400">Accuracy:</span> {accuracy}%
-          </p>
-          <p className="text-xl text-gray-300 font-mono">
-            <span className="text-amber-400">Category:</span>{" "}
-            {category === "emotion" ? "Aether" : category === "action" ? "Surge" : "Nexus"}
-          </p>
+        <p className="text-sm md:text-base text-gray-400 font-mono mb-6">Core Stable</p>
+        <div className="bg-gray-950 bg-opacity-90 border-2 border-amber-900 rounded-md p-4 w-[80vw] max-w-[300px]">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-gray-300 font-mono text-lg">
+            <span className="text-amber-400 font-bold">Score</span>
+            <span>[{score}]</span>
+            <span className="text-amber-400 font-bold">Rounds</span>
+            <span>[{roundsCompleted}]</span>
+            <span className="text-amber-400 font-bold">Accuracy</span>
+            <span>[{accuracy}%]</span>
+            <span className="text-amber-400 font-bold">Category</span>
+            <span>[{category === "emotion" ? "Aether" : category === "action" ? "Surge" : "Nexus"}]</span>
+          </div>
         </div>
-        <button
-          onClick={handleReset}
-          className="mt-6 px-8 py-2 bg-amber-700 border-amber-700 border-2 font-sans font-medium text-lg text-white rounded-sm hover:bg-amber-600 animate-pulse-slow"
-        >
-          Hit Again
-        </button>
-        <button
-          onClick={() => setShowDetails(true)}
-          className="mt-4 px-6 py-2 bg-gray-700 border-gray-700 border-2 font-sans font-medium text-lg text-white rounded-sm hover:bg-gray-600"
-        >
-          See Details
-        </button>
+        <div className="mt-6 flex w-[80%] max-w-[250px] flex-col gap-4 font-orbitron">
+          <button
+            onClick={handleReset}
+            className="px-8 py-2 bg-amber-700 bg-opacity-50 border-2 border-amber-600 text-gray-200 text-lg rounded-sm hover:tracking-[4px] transition-all"
+          >
+            Forge Again
+          </button>
+          <button
+            onClick={() => setShowDetails(true)}
+            className="px-6 py-2 bg-gray-950 bg-opacity-50 border-2 border-amber-800 text-amber-600 text-lg rounded-sm hover:tracking-[4px] transition-all"
+          >
+            See Details
+          </button>
+        </div>
       </motion.div>
     );
   }
@@ -412,8 +418,8 @@ export default function VocabHit({ category }) {
                 className={`px-3 py-1 rounded-sm border text-lg bg-opacity-20 ${
                   category === "emotion"
                     ? "border-purple-600 text-purple-400 bg-purple-900"
-                    : category === "action" 
-                    ? "border-teal-600 text-teal-400 bg-teal-900" 
+                    : category === "action"
+                    ? "border-teal-600 text-teal-400 bg-teal-900"
                     : "border-cyan-600 text-cyan-400 bg-cyan-900"
                 }`}
               >
@@ -496,8 +502,8 @@ export default function VocabHit({ category }) {
             </div>
           </div>
         </div>
-        <div className="lg:flex hidden w-[20px] h-[100px] border-t-2 border-b-2 mt-10 border-amber-700 border-opacity-50"></div>
-        <div className="lg:flex hidden flex-col w-full max-w-[150px] p-1 mt-12 items-center gap-0 rounded-sm border-2 border-amber-700 border-opacity-50">
+        <div className="lg:flex justify-center items-center hidden w-[32px] h-[50px] border-t-4 border-b-4 mt-10 border-amber-700 border-opacity-60"></div>
+        <div className="lg:flex hidden flex-col w-full max-w-[150px] p-1 mt-12 items-center gap-0 rounded-sm border-2 border-amber-700 border-opacity-60">
           <div className="w-full p-2 flex flex-col bg-gray-950 bg-opacity-50">
             <div className="text-[14px] md:text-sm lg:text-[18px] font-orbitron text-amber-400 typing mb-1">Log</div>
             <div
@@ -522,8 +528,8 @@ export default function VocabHit({ category }) {
             </div>
           </div>
         </div>
-        <div className="lg:hidden h-[20px] w-[200px] border-l-2 border-r-2 border-amber-700 border-opacity-50"></div>
-        <div className="lg:hidden flex flex-col w-[90%] md:w-[80%] max-w-[600px] gap-0 rounded-sm border-2 border-amber-700 border-opacity-50">
+        <div className="lg:hidden h-[32px] w-[50px] border-l-4 border-r-4 border-amber-700 border-opacity-60"></div>
+        <div className="lg:hidden flex flex-col w-[90%] md:w-[80%] max-w-[600px] gap-0 rounded-sm border-2 border-amber-700 border-opacity-60">
           <div className="p-2 flex flex-col bg-gray-950 bg-opacity-50" style={{ height: "150px" }}>
             <div className="text-[14px] md:text-sm lg:text-[18px] font-orbitron text-amber-400 typing mb-1">Log</div>
             <div
@@ -531,12 +537,12 @@ export default function VocabHit({ category }) {
                 category === "emotion" ? "text-purple-400" : category === "action" ? "text-teal-400" : "text-cyan-400"
               }`}
             >
-              {category === "emotion" ? "Aether" : category === "action" ? "Surge" : "Nexus"}
+              [{category === "emotion" ? "Aether" : category === "action" ? "Surge" : "Nexus"}]
             </div>
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logSmallRef} className="h-[calc(100%-60px)] overflow-y-auto log-container pr-2">
               {roundResults.length === 0 ? (
-                <p className="text-[11px] text-amber-400/60 font-mono italic text-center mt-4">Awaiting Log...</p>
+                <p className="text-[11px] text-amber-400/60 font-mono italic text-center mt-8">Awaiting Log...</p>
               ) : (
                 <div className="grid grid-cols-3 gap-1">
                   {roundResults.map((result) => (
