@@ -28,7 +28,7 @@ const ModuleMenu = ({
   const modeStyles = {
     vocabHit: {
       header: "Strike the Right Vocab",
-      subtext: "Lock in a category to take down",
+      subtext: "Lock a category and take your shot",
       instruction: "Enter the precise word that corresponds to the provided definition.",
       gradient: "bg-gradient-to-r from-amber-500/10 to-gray-900/50",
       border: "border-[1px] border-amber-600",
@@ -185,14 +185,14 @@ const ModuleMenu = ({
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className={`relative w-[80%] max-w-3xl h-auto min-h-[300px] pb-14 md:pb-16 pt-8 md:pt-10 border border-t-0 border-gray-800 ${modeStyles[selectedMode].scanline} bg-opacity-5 rounded-sm flex flex-col items-center justify-center gap-6 mt-0`}
+              className={`relative w-[80%] max-w-3xl h-auto min-h-[300px] pb-14 md:pb-16 pt-8 md:pt-10 border border-t-0 border-gray-700 rounded-sm flex flex-col items-center justify-center gap-6`}
             >
               <TypingText text={modeStyles[selectedMode].subtext} color={modeStyles[selectedMode].text} />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-4"
+                className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-y-4 w-[90%]"
               >
                 {vectorData[selectedMode].map(({ key, name, description, border, text, shadow }, index) => (
                   <div

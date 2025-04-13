@@ -195,7 +195,7 @@ export default function Home() {
                     onClick={() => handleModeChange("vocabHit")}
                     className="border-2 w-full h-[50px] md:h-[60px] bg-gray-900 bg-opacity-40 border-amber-500 text-amber-400 rounded-sm shadow-[0_0_4px_rgba(249,115,22,0.2)] vector-button"
                   >
-                    Vocab Hit
+                    Vocab Strike
                   </button>
                   <button
                     onClick={() => handleModeChange("wordForge")}
@@ -236,7 +236,7 @@ export default function Home() {
                   </h3>
                   <ul className="text-sm text-gray-300 font-roboto-mono text-left list-disc list-inside p-4 pt-0 space-y-4">
                     <li>Stay tuned for vocabulary expansion updates.</li>
-                    <li>Launched: Mar 26, 2025 - v1.0 English edition released.</li>
+                    <li>Launched: April 2025 - v1.0 English edition released.</li>
                   </ul>
                 </div>
               </motion.div>
