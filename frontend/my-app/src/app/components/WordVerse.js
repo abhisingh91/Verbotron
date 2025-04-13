@@ -32,7 +32,7 @@ export default function WordVerse({ thread }) {
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
   const [gameOver, setGameOver] = useState(false);
   const [serialCount, setSerialCount] = useState(1);
   const [isGameReady, setIsGameReady] = useState(false);
@@ -506,8 +506,8 @@ export default function WordVerse({ thread }) {
           </div>
           <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-green-900 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
             <div className="flex justify-between items-center w-full mb-4 relative h-[34px] md:h-[38px]">
-              <div className="flex justify-center items-center space-x-2 bg-green-900 bg-opacity-20 border border-green-600 rounded-sm w-[56px] p-1">
-                <span className="text-green-400 text-[16px] md:text-[18px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
+              <div className="flex items-center justify-center space-x-2 bg-green-900 bg-opacity-20 border border-green-600 rounded-sm w-[56px] p-1">
+                <span className="text-green-400 text-[14px] md:text-[16px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
                   {countdown === null && `#${serialCount}`}
                 </span>
               </div>
@@ -531,9 +531,9 @@ export default function WordVerse({ thread }) {
               </div>
             </div>
             <div className="relative w-full min-h-[180px] bg-green-950 bg-opacity-30 border border-green-900 rounded-sm flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
-              <div className="absolute top-2 left-2 text-[12px] md:text-[14px] lg:text-[16px] font-mono text-green-400 h-[18px] md:h-[20px]">
+              {/* <div className="absolute top-2 left-2 text-[12px] md:text-[14px] lg:text-[16px] font-mono text-green-400 h-[18px] md:h-[20px]">
                 {countdown === null && `[${currentContext}]`}
-              </div>
+              </div> */}
               {countdown !== null ? (
                 <motion.div
                   className="flex flex-col items-center gap-2"

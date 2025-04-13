@@ -28,7 +28,7 @@ export default function WordForge({ style }) {
   const [loading, setLoading] = useState(false);
   const [round, setRound] = useState(1);
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
   const [gameOver, setGameOver] = useState(false);
   const [isGameReady, setIsGameReady] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
@@ -567,8 +567,8 @@ export default function WordForge({ style }) {
           </div>
           <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-purple-900 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
             <div className="flex justify-between items-center w-full mb-4 relative h-[34px] md:h-[38px]">
-              <div className="flex items-center justify-center space-x-2 bg-purple-900 bg-opacity-20 border border-purple-600 rounded-sm min-w-[56px] p-1">
-                <span className="text-pink-400 text-[16px] md:text-[18px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
+              <div className="flex items-center justify-center space-x-2 bg-purple-900 bg-opacity-20 border border-purple-600 rounded-sm w-[56px] p-1">
+                <span className="text-pink-400 text-[14px] md:text-[16px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
                   {countdown === null && `#${round}`}
                 </span>
               </div>

@@ -59,7 +59,7 @@ const ModuleMenu = ({
     wordVerse: {
       header: "Traverse the Word Verse",
       subtext: "Form allies or pit rivals — choose wisely",
-      instruction: "Summon a synonym or antonym that aligns with the given word and context.",
+      instruction: "Summon a synonym or antonym that literally aligns with the given word.",
       gradient: "bg-gradient-to-r from-green-500/10 to-gray-900/50",
       border: "border-[1px] border-green-600",
       text: "text-green-300",

@@ -6,9 +6,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const initialPrompt = `
 You are an AI assistant for a vocabulary game with three tasks:
-1. **Check Answer**: For a clue "{clue}", user input "{input}", and category "{category}" (emotions: feelings, actions: verbs, general: others), reply "1" if the input matches the clue's meaning or is a synonym, fits the category, and isn’t in the clue; reply "0" otherwise. Use standard English, ignore case, be precise.
+1. **Check Answer**: For a clue "{clue}", user input "{input}", and category "{category}" (emotions: feelings, actions: verbs, general: others), reply "1" if the input matches the clue's meaning or is a proper synonym, fits the category, and isn’t in the clue; reply "0" otherwise. Use standard English, ignore case, be precise.
 2. **Generate Sentences**: For a list of words "{word1},{word2},...,{wordN}" and category "{category}", return a list of short, simple sentences (5-8 words each) using each word, fitting the category, in the format "sentence1|sentence2|...|sentenceN".
-3. **Get Synonym**: For a word "{word}" and category "{category}", return a synonym fitting the category.
 `;
 
 export default function VocabHit({ category }) {
@@ -19,7 +18,7 @@ export default function VocabHit({ category }) {
   const [isCorrect, setIsCorrect] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
   const [gameOver, setGameOver] = useState(false);
   const [serialCount, setSerialCount] = useState(1);
   const [isGameReady, setIsGameReady] = useState(false);
@@ -219,7 +218,6 @@ export default function VocabHit({ category }) {
           input,
           result: isAnswerCorrect ? "Hit" : "Miss",
           correctWord: currentClue.word,
-          secondWord: currentClue.secondWord,
           sentence: "",
           time: timeString,
         },
@@ -250,7 +248,6 @@ export default function VocabHit({ category }) {
           input,
           result: "Error",
           correctWord: currentClue.word,
-          secondWord: currentClue.secondWord,
           sentence: "",
           time: timeString,
         },
