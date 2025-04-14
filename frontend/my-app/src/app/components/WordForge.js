@@ -300,7 +300,7 @@ export default function WordForge({ style }) {
 
   useEffect(() => {
     if (countdown !== null && countdown > 0) {
-      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 750);
       return () => clearTimeout(timer);
     } else if (countdown === 0) {
       setCountdown(null);
@@ -318,7 +318,7 @@ export default function WordForge({ style }) {
     if (timer === 0 && !gameOverTriggeredRef.current) {
       handleGameOverPrep();
     } else if (isGameReady && !gameOver) {
-      const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+      const interval = setInterval(() => setTimer((prev) => prev - 1), 750);
       return () => clearInterval(interval);
     }
   }, [timer, isGameReady, gameOver, handleGameOverPrep]);
@@ -554,21 +554,21 @@ export default function WordForge({ style }) {
       <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-0">
         <div className="flex flex-col justify-center w-[90%] md:w-[80%] lg:w-3/5 max-w-[600px] items-center">
           <div className="w-[40%] md:w-1/4 lg:w-2/5 sm:max-w-[200px] md:max-w-[300px]">
-            <div className="bg-gray-950 bg-opacity-50 border-2 border-b-0 border-purple-900 rounded-t-sm p-2 flex justify-center items-center shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+            <div className="bg-gray-950 bg-opacity-50 border-2 border-b-0 border-purple-800 rounded-t-sm p-2 flex justify-center items-center shadow-[0_0_10px_rgba(0,0,0,0.3)]">
               <p className="text-[18px] md:text-[20px] font-orbitron text-pink-400 tracking-wider h-[28px] md:h-[32px]">
                 {countdown === null && (
                   <>
                     {timer.toString().padStart(2, "0")}
-                    <span className="text-pink-300 text-[14px] md:text-[16px]">s</span>
+                    <span className="text-pink-400 text-[14px] md:text-[16px]">-vir</span>
                   </>
                 )}
               </p>
             </div>
           </div>
-          <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-purple-900 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+          <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-purple-800 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
             <div className="flex justify-between items-center w-full mb-4 relative h-[34px] md:h-[38px]">
-              <div className="flex items-center justify-center space-x-2 bg-purple-900 bg-opacity-20 border border-purple-600 rounded-sm w-[56px] p-1">
-                <span className="text-pink-400 text-[14px] md:text-[16px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
+              <div className="flex items-center justify-center bg-purple-900 bg-opacity-20 border border-purple-600 rounded-sm w-[56px] h-full p-1">
+                <span className="flex items-center justify-center h-full w-full text-pink-400 text-[14px] md:text-[16px] font-orbitron">
                   {countdown === null && `#${round}`}
                 </span>
               </div>
@@ -591,7 +591,7 @@ export default function WordForge({ style }) {
                 {countdown === null && (style === "literal" ? "C" : "F")}
               </div>
             </div>
-            <div className="relative w-full min-h-[180px] bg-purple-950 bg-opacity-30 border border-purple-900 rounded-sm flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
+            <div className="relative w-full min-h-[180px] bg-purple-950 bg-opacity-30 border border-purple-800 rounded-sm flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
               {countdown !== null ? (
                 <motion.div
                   className="flex flex-col items-center gap-2"
@@ -644,8 +644,8 @@ export default function WordForge({ style }) {
                             className="bg-green-900 bg-opacity-80 border-2 border-green-500 rounded-sm px-4 py-1.5 shadow-[0_0_10px_rgba(34,197,94,0.7)]"
                             style={{ textShadow: "0 0 5px rgba(34, 197, 94, 0.9)" }}
                           >
-                            <p className="text-green-300 text-sm md:text-lg font-orbitron font-extrabold tracking-wider">
-                              Forged!
+                            <p className="text-green-300 text-[14px] md:text-sm font-roboto-mono font-extrabold tracking-wider">
+                              FORGE ::
                             </p>
                           </div>
                           {[...Array(8)].map((_, i) => (
@@ -664,8 +664,8 @@ export default function WordForge({ style }) {
                         </>
                       ) : result === "incorrect" ? (
                         <div className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-sm px-4 py-1.5 shadow-[0_0_10px_rgba(239,68,68,0.7)]">
-                          <p className="text-red-300 text-sm md:text-lg font-orbitron font-extrabold tracking-wider">
-                            Failed!
+                          <p className="text-red-300 text-[14px] md:text-sm font-roboto-mono font-extrabold tracking-wider">
+                            FAIL /x
                           </p>
                         </div>
                       ) : (
@@ -744,8 +744,8 @@ export default function WordForge({ style }) {
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logLargeRef} className="h-[240px] overflow-y-auto log-container pr-2">
               {countdown === null && roundResults.length === 0 ? (
-                <p className="text-[11px] text-pink-400/60 font-mono italic text-center mt-20 h-[22px]">
-                  Awaiting Log...
+                <p className="text-[11px] text-pink-400/60 font-mono text-center mt-20 h-[22px]">
+                  &gt; Awaiting Log...
                 </p>
               ) : (
                 countdown === null &&
@@ -786,8 +786,8 @@ export default function WordForge({ style }) {
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logSmallRef} className="h-[calc(100%-60px)] overflow-y-auto log-container pr-2">
               {countdown === null && roundResults.length === 0 ? (
-                <p className="text-[11px] text-pink-400/60 font-mono italic text-center mt-8 h-[22px]">
-                  Awaiting Log...
+                <p className="text-[11px] text-pink-400/60 font-mono text-center mt-7 h-[22px]">
+                  &gt; Awaiting Log...
                 </p>
               ) : (
                 countdown === null && (

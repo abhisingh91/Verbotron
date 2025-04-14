@@ -247,7 +247,7 @@ export default function WordVerse({ thread }) {
 
   useEffect(() => {
     if (countdown !== null && countdown > 0) {
-      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 750);
       return () => clearTimeout(timer);
     } else if (countdown === 0) {
       setCountdown(null);
@@ -265,7 +265,7 @@ export default function WordVerse({ thread }) {
     if (timer === 0 && !gameOverTriggeredRef.current) {
       handleGameOverPrep();
     } else if (isGameReady && !gameOver) {
-      const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+      const interval = setInterval(() => setTimer((prev) => prev - 1), 750);
       return () => clearInterval(interval);
     }
   }, [timer, isGameReady, gameOver, handleGameOverPrep]);
@@ -499,15 +499,15 @@ export default function WordVerse({ thread }) {
               <p className="text-[18px] md:text-[20px] font-orbitron text-green-400 tracking-wider h-[28px] md:h-[32px]">
                 {countdown === null && timer.toString().padStart(2, "0")}
                 {countdown === null && (
-                  <span className="text-green-300 text-[14px] md:text-[16px]">s</span>
+                  <span className="text-green-400 text-[14px] md:text-[16px]">-vir</span>
                 )}
               </p>
             </div>
           </div>
           <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-green-900 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
             <div className="flex justify-between items-center w-full mb-4 relative h-[34px] md:h-[38px]">
-              <div className="flex items-center justify-center space-x-2 bg-green-900 bg-opacity-20 border border-green-600 rounded-sm w-[56px] p-1">
-                <span className="text-green-400 text-[14px] md:text-[16px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
+              <div className="flex items-center justify-center space-x-2 bg-green-900 bg-opacity-20 border border-green-600 rounded-sm w-[56px] h-full p-1">
+                <span className="flex items-center justify-center h-full w-full text-green-400 text-[14px] md:text-[16px] font-orbitron">
                   {countdown === null && `#${serialCount}`}
                 </span>
               </div>
@@ -590,8 +590,8 @@ export default function WordVerse({ thread }) {
                             className="bg-green-900 bg-opacity-80 border-2 border-green-500 rounded-sm px-4 py-1.5 shadow-[0_0_10px_rgba(34,197,94,0.7)]"
                             style={{ textShadow: "0 0 5px rgba(34, 197, 94, 0.9)" }}
                           >
-                            <p className="text-green-300 text-sm md:text-lg font-orbitron font-extrabold tracking-wider">
-                              Warped!
+                            <p className="text-green-300 text-[14px] md:text-sm font-roboto-mono font-extrabold tracking-wider">
+                              WARP &gt;&gt;
                             </p>
                           </div>
                           {[...Array(8)].map((_, i) => (
@@ -610,8 +610,8 @@ export default function WordVerse({ thread }) {
                         </>
                       ) : (
                         <div className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-sm px-4 py-1.5 shadow-[0_0_10px_rgba(239,68,68,0.7)]">
-                          <p className="text-red-300 text-sm md:text-lg font-orbitron font-extrabold tracking-wider">
-                            Missed!
+                          <p className="text-red-300 text-[14px] md:text-sm font-roboto-mono font-extrabold tracking-wider">
+                            GLITCH &lt;!&gt;
                           </p>
                         </div>
                       )}
@@ -685,8 +685,8 @@ export default function WordVerse({ thread }) {
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logLargeRef} className="h-[240px] overflow-y-auto log-container pr-2">
               {roundResults.length === 0 ? (
-                <p className="text-[11px] text-green-400/60 font-mono italic text-center mt-20 h-[22px]">
-                  {countdown === null && "Awaiting Log..."}
+                <p className="text-[11px] text-green-400/60 font-mono text-center mt-20 h-[22px]">
+                  {countdown === null && "> Awaiting Log..."}
                 </p>
               ) : (
                 roundResults.map((result) => (
@@ -726,8 +726,8 @@ export default function WordVerse({ thread }) {
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logSmallRef} className="h-[calc(100%-60px)] overflow-y-auto log-container pr-2">
               {roundResults.length === 0 ? (
-                <p className="text-[11px] text-green-400/60 font-mono italic text-center mt-8 h-[22px]">
-                  {countdown === null && "Awaiting Log..."}
+                <p className="text-[11px] text-green-400/60 font-mono text-center mt-7 h-[22px]">
+                  {countdown === null && "> Awaiting Log..."}
                 </p>
               ) : (
                 <div className="grid grid-cols-3 gap-1">

@@ -192,7 +192,7 @@ const ModuleMenu = ({
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-y-4 w-[90%]"
+                className="grid grid-cols-1 md:grid-cols-2 justify-items-center gap-y-6 w-[90%]"
               >
                 {vectorData[selectedMode].map(({ key, name, description, border, text, shadow }, index) => (
                   <div

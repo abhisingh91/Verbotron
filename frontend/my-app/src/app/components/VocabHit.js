@@ -292,7 +292,7 @@ export default function VocabHit({ category }) {
 
   useEffect(() => {
     if (countdown !== null && countdown > 0) {
-      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 750);
       return () => clearTimeout(timer);
     } else if (countdown === 0) {
       setCountdown(null);
@@ -310,7 +310,7 @@ export default function VocabHit({ category }) {
     if (timer === 0) {
       handleGameOverPrep();
     } else if (isGameReady && !gameOver) {
-      const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
+      const interval = setInterval(() => setTimer((prev) => prev - 1), 750);
       return () => clearInterval(interval);
     }
   }, [timer, isGameReady, gameOver, handleGameOverPrep]);
@@ -352,7 +352,7 @@ export default function VocabHit({ category }) {
   if (showTransition) {
     return (
       <div className="flex flex-col justify-center items-center h-[50vh] w-[80%] md:w-2/3 lg:w-1/2 max-w-[600px] text-white">
-        <div className="relative w-full h-32 bg-gray-950 bg-opacity-50 border-2 border-amber-800 rounded-sm flex items-center justify-center shadow-[0_0_10px_rgba(249,115,22,0.3)] overflow-hidden">
+        <div className="relative w-full h-32 bg-gray-950 bg-opacity-50 border-2 border-red-800 rounded-sm flex items-center justify-center shadow-[0_0_10px_rgba(0,0,0,0.3)] overflow-hidden">
           <div className="relative z-10 flex items-center gap-4">
             <p className="text-[18px] md:text-[20px] font-orbitron text-amber-300 tracking-wider">
               Processing Data...
@@ -382,7 +382,7 @@ export default function VocabHit({ category }) {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="flex flex-col h-[70vh] justify-center items-center w-[90%] md:w-3/4 lg:w-2/3 text-white"
       >
-        <div className="w-[80vw] max-w-[350px] flex flex-col border-2 border-b-0 border-amber-900 py-4 text-center">
+        <div className="w-[80vw] max-w-[350px] flex flex-col border-2 border-b-0 border-red-900 py-4 text-center">
           <h1
             className="text-xl md:text-[22px] xl:text-[24px] font-orbitron text-white tracking-wide mb-1 typing"
             style={{ textShadow: "0 0 8px rgba(34, 197, 94, 0.8)" }}
@@ -391,7 +391,7 @@ export default function VocabHit({ category }) {
           </h1>
           <p className="text-sm md:text-base text-gray-400 font-mono">[Core Stable]</p>
         </div>
-        <div className="bg-gray-950 bg-opacity-40 border-2 border-amber-900 rounded-sm p-4 w-[80vw] max-w-[350px]">
+        <div className="bg-gray-950 bg-opacity-40 border-2 border-red-900 rounded-sm p-4 w-[80vw] max-w-[350px]">
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-gray-300 font-roboto-mono text-lg">
             <span className="text-amber-400 font-bold">Score</span>
             <span>[{score}]</span>
@@ -406,13 +406,13 @@ export default function VocabHit({ category }) {
         <div className="mt-6 flex w-[80%] max-w-[250px] flex-col gap-4 font-orbitron">
           <button
             onClick={handleReset}
-            className="px-8 py-2 bg-amber-700 bg-opacity-50 border-2 border-amber-600 text-gray-200 text-lg rounded-sm hover:tracking-[4px] transition-all"
+            className="px-8 py-2 bg-red-700 bg-opacity-50 border-2 border-red-600 text-gray-200 text-lg rounded-sm hover:tracking-[4px] transition-all"
           >
             Forge Again
           </button>
           <button
             onClick={() => setShowDetails(true)}
-            className="px-6 py-2 bg-gray-950 bg-opacity-50 border-2 border-amber-800 text-amber-600 text-lg rounded-sm hover:tracking-[4px] transition-all"
+            className="px-6 py-2 bg-gray-950 bg-opacity-50 border-2 border-red-800 text-red-600 text-lg rounded-sm hover:tracking-[4px] transition-all"
           >
             See Details
           </button>
@@ -436,7 +436,7 @@ export default function VocabHit({ category }) {
           Vocab Details
         </h1>
         <div
-          className="w-full max-h-[400px] overflow-y-auto bg-gray-950 bg-opacity-50 border-2 border-amber-800 rounded-sm p-2 shadow-inner"
+          className="w-full max-h-[400px] overflow-y-auto bg-gray-950 bg-opacity-50 border-2 border-red-800 rounded-sm p-2 shadow-inner"
           style={{ scrollbarWidth: "thin", scrollbarColor: "#f59e0b transparent" }}
         >
           {roundResults.length === 0 ? (
@@ -492,7 +492,7 @@ export default function VocabHit({ category }) {
         </div>
         <button
           onClick={() => setShowDetails(false)}
-          className="mt-6 px-8 py-2 bg-amber-700 border-amber-700 border-2 font-sans font-medium text-lg text-white rounded-sm hover:bg-amber-600"
+          className="mt-6 px-8 py-2 bg-amber-700 border-red-700 border-2 font-sans font-medium text-lg text-white rounded-sm hover:bg-amber-600"
         >
           Back
         </button>
@@ -516,21 +516,21 @@ export default function VocabHit({ category }) {
       <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-0">
         <div className="flex flex-col justify-center w-[90%] md:w-[80%] lg:w-3/5 max-w-[600px] items-center">
           <div className="w-[40%] md:w-1/4 lg:w-2/5 sm:max-w-[200px] md:max-w-[300px]">
-            <div className="bg-gray-950 bg-opacity-50 border-2 border-b-0 border-amber-600 rounded-t-sm p-2 flex justify-center items-center shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+            <div className="bg-gray-950 bg-opacity-50 border-2 border-b-0 border-red-800 rounded-t-sm p-2 flex justify-center items-center shadow-[0_0_10px_rgba(0,0,0,0.3)]">
               <p className="text-[18px] md:text-[20px] font-orbitron text-amber-400 tracking-wider h-[28px] md:h-[32px]">
                 {countdown === null && (
                   <>
                     {timer.toString().padStart(2, "0")}
-                    <span className="text-amber-300 text-[14px] md:text-[16px]">s</span>
+                    <span className="text-amber-400 text-[14px] md:text-[16px]">-vir</span>
                   </>
                 )}
               </p>
             </div>
           </div>
-          <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-amber-800 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+          <div className="relative flex flex-col p-5 bg-gray-950 bg-opacity-50 border-[2px] border-red-800 rounded-sm w-full items-center h-auto text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]">
             <div className="flex justify-between items-center w-full mb-4 relative h-[34px] md:h-[38px]">
-              <div className="flex items-center justify-center space-x-2 bg-amber-900 bg-opacity-20 border border-amber-600 rounded-sm w-[56px] p-1">
-                <span className="text-amber-400 text-[14px] md:text-[16px] font-orbitron tracking-wider h-[24px] md:h-[26px]">
+              <div className="flex items-center justify-center space-x-2 bg-red-900 bg-opacity-20 border border-red-600 rounded-sm w-[56px] h-full p-1">
+                <span className="flex items-center justify-center h-full w-full text-amber-400 text-[14px] md:text-[16px] font-orbitron">
                   {countdown === null && `#${serialCount}`}
                 </span>
               </div>
@@ -555,7 +555,7 @@ export default function VocabHit({ category }) {
                 {countdown === null && (category === "emotion" ? "A" : category === "action" ? "S" : "N")}
               </div>
             </div>
-            <div className="relative w-full min-h-[180px] bg-amber-950 bg-opacity-30 border border-amber-800 rounded-sm flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
+            <div className="relative w-full min-h-[180px] bg-red-950 bg-opacity-30 border border-red-800 rounded-sm flex flex-col items-center justify-center px-4 mb-6 text-center shadow-inner">
               {countdown !== null ? (
                 <motion.div
                   className="flex flex-col items-center gap-2"
@@ -599,8 +599,8 @@ export default function VocabHit({ category }) {
                             className="bg-green-900 bg-opacity-80 border-2 border-green-500 rounded-sm px-4 py-1.5 shadow-[0_0_10px_rgba(34,197,94,0.7)]"
                             style={{ textShadow: "0 0 5px rgba(34, 197, 94, 0.9)" }}
                           >
-                            <p className="text-green-300 text-lg md:text-xl font-orbitron font-extrabold tracking-wider">
-                              Hit!
+                            <p className="text-green-300 text-[14px] md:text-sm font-roboto-mono font-extrabold tracking-wider">
+                              STRIKE +
                             </p>
                           </div>
                           {[...Array(8)].map((_, i) => (
@@ -615,8 +615,8 @@ export default function VocabHit({ category }) {
                         </>
                       ) : (
                         <div className="bg-red-900 bg-opacity-80 border-2 border-red-500 rounded-sm px-4 py-1.5 shadow-[0_0_10px_rgba(239,68,68,0.7)]">
-                          <p className="text-red-300 text-lg md:text-xl font-orbitron font-extrabold tracking-wider">
-                            Miss!
+                          <p className="text-red-300 text-[14px] md:text-sm font-roboto-mono font-extrabold tracking-wider">
+                            MISS &gt;&lt;
                           </p>
                         </div>
                       )}
@@ -638,7 +638,7 @@ export default function VocabHit({ category }) {
                   onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
                   disabled={loading || isCorrect !== null || countdown !== null}
                   spellCheck={false}
-                  className="w-full p-2.5 md:p-3 text-[16px] md:text-xl bg-gray-800 border border-amber-900 rounded-sm text-gray-200 focus:outline-none focus:ring-0 focus:border-amber-500"
+                  className="w-full p-2.5 md:p-3 text-[16px] md:text-xl bg-gray-800 border border-red-900 rounded-sm text-gray-200 focus:outline-none focus:ring-0 focus:border-amber-500"
                   placeholder={countdown === null ? "Type the word..." : ""}
                 />
                 <button
@@ -654,13 +654,13 @@ export default function VocabHit({ category }) {
             </div>
           </div>
         </div>
-        <div className="lg:flex justify-center items-center hidden w-[32px] h-[50px] border-t-4 border-b-4 mt-10 border-amber-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"></div>
+        <div className="lg:flex justify-center items-center hidden w-[32px] h-[50px] border-t-4 border-b-4 mt-10 border-red-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"></div>
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
           style={{ transformOrigin: "left" }}
-          className="lg:flex hidden flex-col w-full max-w-[150px] p-1 mt-12 items-center gap-0 rounded-sm border-2 border-amber-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+          className="lg:flex hidden flex-col w-full max-w-[150px] p-1 mt-12 items-center gap-0 rounded-sm border-2 border-red-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
         >
           <div className="w-full p-2 flex flex-col bg-gray-950 bg-opacity-50">
             <div className={`text-[14px] md:text-sm lg:text-[18px] font-orbitron text-amber-400 ${countdown === null ? "typing" : ""} mb-1 h-[22px] md:h-[24px]`}>
@@ -676,8 +676,8 @@ export default function VocabHit({ category }) {
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logLargeRef} className="h-[240px] overflow-y-auto log-container pr-2">
               {countdown === null && roundResults.length === 0 ? (
-                <p className="text-[11px] text-amber-400/60 font-mono italic text-center mt-20 h-[22px]">
-                  Awaiting Log...
+                <p className="text-[11px] text-amber-400/60 font-mono text-center mt-20 h-[22px]">
+                  &gt; Awaiting Log...
                 </p>
               ) : (
                 countdown === null &&
@@ -691,13 +691,13 @@ export default function VocabHit({ category }) {
             </div>
           </div>
         </motion.div>
-        <div className="lg:hidden h-[32px] w-[50px] border-l-4 border-r-4 border-amber-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"></div>
+        <div className="lg:hidden h-[32px] w-[50px] border-l-4 border-r-4 border-red-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"></div>
         <motion.div
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
           style={{ transformOrigin: "top" }}
-          className="lg:hidden flex flex-col w-[90%] md:w-[80%] max-w-[600px] gap-0 rounded-sm border-2 border-amber-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+          className="lg:hidden flex flex-col w-[90%] md:w-[80%] max-w-[600px] gap-0 rounded-sm border-2 border-red-800 shadow-[0_0_10px_rgba(0,0,0,0.3)]"
         >
           <div className="p-2 flex flex-col bg-gray-950 bg-opacity-50" style={{ height: "150px" }}>
             <div className={`text-[14px] md:text-sm lg:text-[18px] font-orbitron text-amber-400 ${countdown === null ? "typing" : ""} mb-1 h-[22px] md:h-[24px]`}>
@@ -713,8 +713,8 @@ export default function VocabHit({ category }) {
             <div className="w-full border-t border-gray-500 border-opacity-30 mb-2"></div>
             <div ref={logSmallRef} className="h-[calc(100%-60px)] overflow-y-auto log-container pr-2">
               {countdown === null && roundResults.length === 0 ? (
-                <p className="text-[11px] text-amber-400/60 font-mono italic text-center mt-8 h-[22px]">
-                  Awaiting Log...
+                <p className="text-[11px] text-amber-400/60 font-mono text-center mt-7 h-[22px]">
+                  &gt; Awaiting log...
                 </p>
               ) : (
                 countdown === null && (
